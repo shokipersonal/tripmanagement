@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>FonCity 2026 — Group Budget</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,7 +18,7 @@
     --gray-text: #6b6b6b;
     --gray-mid: #4a4a4a;
     --accent: #1C5C7D;
-    --section-spacing: 96px;
+    --section-spacing: 48px;
     --sky-peach: #E4BA9B;
   }
 
@@ -25,7 +26,7 @@
 
   body {
     font-family: 'Inter', sans-serif;
-    background: rgba(255,255,255,0.72);
+    background: rgba(255,255,255,0.85);
     color: var(--black);
     font-size: 16px;
     line-height: 1.7;
@@ -102,6 +103,68 @@
     background-position: top center;
     border-bottom: none;
   }
+
+  /* NAV MORE DROPDOWN */  .nav-more-wrap {
+    position: relative;
+    flex-shrink: 0;
+    margin-left: 16px;
+    padding-left: 16px;
+    border-left: 0.5px solid rgba(255,255,255,0.3);
+  }
+
+  nav.menu-bar.scrolled .nav-more-wrap {
+    border-left-color: var(--gray-border);
+  }
+
+  .nav-more-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    transition: color 0.2s ease;
+  }
+
+  nav.menu-bar.scrolled .nav-more-btn {
+    color: rgba(255,255,255,0.92);
+    font-weight: 600;
+  }
+
+  .nav-more-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 0.5px solid var(--gray-border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    min-width: 160px;
+    z-index: 200;
+    padding: 8px 0;
+  }
+
+  .nav-more-menu.open { display: block; }
+
+  .nav-more-menu a {
+    display: block;
+    padding: 10px 20px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white) !important;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+
+  .nav-more-menu a:hover { background: rgba(255,255,255,0.15); color: var(--white) !important; }
 
   /* HERO */
   /* PAGE BACKGROUND — fixed blurred photo */
@@ -185,7 +248,7 @@
   }
 
   h1 {
-    font-size: clamp(41.5px, 7vw, 81.5px);
+    font-size: clamp(40.5px, 7vw, 80.5px);
     font-weight: 200;
     letter-spacing: 2px;
     line-height: 1.1;
@@ -216,16 +279,16 @@
   section:last-of-type { border-bottom: none; }
 
   .section-label {
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--gray-text);
-    margin-bottom: 48px;
+    margin-bottom: 12px;
   }
 
   h2 {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 200;
     letter-spacing: 0.5px;
     color: var(--black);
@@ -237,7 +300,7 @@
     font-weight: 300;
     color: var(--gray-mid);
     line-height: 1.85;
-    max-width: 620px;
+    max-width: 780px;
   }
 
   p.lede strong { font-weight: 500; color: var(--black); }
@@ -246,8 +309,8 @@
   .expandable-header:hover .expand-toggle { color: var(--black); }
 
   .expand-toggle {
-    font-size: 24px;
-    color: var(--black);
+    font-size: 18px;
+    color: var(--gray-text);
     transition: transform 0.25s ease, color 0.2s ease;
     flex-shrink: 0;
     display: inline-block;
@@ -277,18 +340,12 @@
     padding: 20px 48px;
     width: 100%;
     box-sizing: border-box;
-    border-top: 0.5px solid var(--gray-border);
-    border-bottom: 0.5px solid var(--gray-border);
-    transition: background 0.2s ease;
-  }
-
-  .expandable-header:hover {
-    background: rgba(0,0,0,0.03);
+    border-bottom: 0.5px solid var(--black);
+    border-bottom: 1.5px solid var(--black);
   }
 
   .expandable-header .expand-toggle {
-    color: var(--black);
-    font-size: 24px;
+    color: var(--gray-text);
   }
 
   .expandable-body {
@@ -323,7 +380,7 @@
   }
 
   .coming-soon-features li {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 300;
     color: var(--gray-mid);
     line-height: 1.7;
@@ -334,7 +391,7 @@
   .coming-soon-features li strong { color: var(--black); font-weight: 500; }
 
   .coming-soon-note {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 300;
     color: var(--gray-text);
     font-style: italic;
@@ -352,16 +409,21 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--gray-text);
-    margin-bottom: 24px;
+    margin-bottom: 0;
+    padding-bottom: 16px;
+    border-bottom: 0.5px solid var(--black);
+    margin-bottom: 0;
   }
+
+  .banking-rows { margin-top: 0; }
 
   .banking-rows { display: flex; flex-direction: column; }
 
   .banking-row {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    padding: 10px 0;
+    align-items: center;
+    padding: 16px 0;
     border-bottom: 0.5px solid var(--gray-border);
     gap: 16px;
   }
@@ -369,13 +431,17 @@
   .banking-row:last-child { border-bottom: none; }
 
   .banking-key {
-    font-size: 12px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     color: var(--gray-text);
     flex-shrink: 0;
   }
 
   .banking-val {
-    font-size: 13px;
+    font-size: 12.5px;
+    font-weight: 300;
     color: var(--black);
     text-align: right;
   }
@@ -448,7 +514,7 @@
     font-weight: 300;
     color: var(--gray-mid);
     line-height: 1.8;
-    max-width: 620px;
+    max-width: 780px;
   }
 
   .room-detail-text strong { color: var(--black); font-weight: 500; }
@@ -487,10 +553,10 @@
 
   .polaroid {
     flex: 0 0 auto;
-    width: 180px;
+    width: 250px;
     background: var(--white);
     border: 0.5px solid var(--gray-border);
-    padding: 14px 14px 36px;
+    padding: 16px 16px 42px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.05);
     transform: rotate(-3deg);
   }
@@ -508,7 +574,7 @@
 
   .roster-text {
     flex: 1;
-    font-size: 17px;
+    font-size: 19px;
     font-weight: 300;
     color: var(--black);
   }
@@ -534,7 +600,7 @@
     border-bottom: 0.5px solid var(--black);
   }
 
-  thead th:nth-child(2), thead th:last-child { text-align: right; }
+  thead th:nth-child(n+2) { text-align: right; }
 
   tbody td {
     padding: 16px 0;
@@ -542,17 +608,17 @@
     font-weight: 300;
   }
 
-  tbody td:nth-child(2), tbody td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody td:nth-child(n+2) { text-align: right; font-variant-numeric: tabular-nums; }
 
   tr.category td:first-child { font-weight: 400; color: var(--black); }
 
   tr.subitem td:first-child {
     padding-left: 20px;
     color: var(--gray-text);
-    font-size: 13px;
+    font-size: 15px;
   }
 
-  tr.subitem td { color: var(--gray-text); font-size: 13px; padding-top: 10px; padding-bottom: 10px; }
+  tr.subitem td { color: var(--gray-text); font-size: 15px; padding-top: 10px; padding-bottom: 10px; }
 
   tr.total td {
     border-bottom: none;
@@ -641,7 +707,7 @@
   .bar-fill {
     height: 100%;
     background: var(--black);
-    width: 55%;
+    width: 100%;
   }
 
   .progress-foot {
@@ -676,7 +742,7 @@
     padding: 24px 28px;
     border: 0.5px solid var(--gray-border);
     border-left: 2px solid var(--black);
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 300;
     color: var(--gray-mid);
     line-height: 1.8;
@@ -698,12 +764,13 @@
     align-items: center;
     padding: 16px 0;
     border-top: 0.5px solid var(--gray-border);
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: 300;
   }
 
   .t-row:first-child { border-top: none; }
 
-  .t-date { color: var(--gray-text); letter-spacing: 0.5px; }
+  .t-date { color: var(--gray-text); letter-spacing: 0.5px; font-size: 13px; font-weight: 300; }
   .t-amount { text-align: right; font-variant-numeric: tabular-nums; }
   .t-status { text-align: right; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
   .t-status.paid { color: var(--gray-text); }
@@ -718,21 +785,62 @@
   }
 
   @media (max-width: 760px) {
+    :root { --section-spacing: 48px; }
+    header.hero { min-height: 38vh; }
     .container { padding: 0 24px; }
     nav.menu-bar { padding: 16px 20px; }
     .nav-links { gap: 14px; overflow-x: auto; }
     .nav-logo { margin-right: 20px; }
-    header.hero { padding: 80px 24px 64px; }
-    .roster-entry, .roster-entry.flip {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 14px;
+
+    /* Desktop text sizes reduced for mobile */
+    .note-box { font-size: 13px; }
+    .coming-soon-features li { font-size: 13px; }
+    .coming-soon-note { font-size: 13px; }
+    tr.subitem td { font-size: 11px !important; }
+
+    /* H1 hero title — reduce by 1px on mobile */
+    h1 { font-size: clamp(40.5px, 7vw, 80.5px); }
+
+    /* H2 section headings — mobile */
+    h2 { font-size: 17px; }
+    .roster-text { font-size: 16px; }
+
+    /* Card numbers + LayUp + progress — 27px on mobile */
+    .pct { font-size: 27px !important; }
+    /* Card numbers — uniform 27px on mobile */
+    .stat-value { font-size: 27px; }
+    .stat-block .stat-value, .two-col .stat-value { font-size: 27px !important; }
+
+    /* Prevent mobile browser auto-linking account numbers */
+    .banking-val { 
+      -webkit-touch-callout: none;
+      pointer-events: none;
     }
-    .roster-entry.flip .roster-text { text-align: center; }
-    .roster-text { text-align: center; }
-    .polaroid { transform: rotate(-2deg) !important; }
-    .roster-list { align-items: center; }
+    header.hero { padding: 80px 24px 64px; }
+    .roster-list { align-items: stretch; gap: 28px; }
+    .roster-entry {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding-left: 16px;
+    }
+    .roster-entry.flip {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      padding-right: 16px;
+    }
+    .polaroid {
+      width: 180px;
+      background: var(--white);
+      border: 0.5px solid var(--gray-border);
+      padding: 14px 14px 36px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+      transform: rotate(-3deg);
+    }
+    .roster-entry.flip .polaroid { transform: rotate(3deg); }
+    .roster-entry .roster-text { text-align: left; }
+    .roster-entry.flip .roster-text { text-align: right; }
     .two-col { grid-template-columns: 1fr; gap: 32px; }
     .photo-grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -762,13 +870,6 @@
       padding: 10px 6px;
     }
 
-    tbody td:nth-child(2) {
-      display: none;
-    }
-
-    thead th:nth-child(2) {
-      display: none;
-    }
   }
 </style>
 </head>
@@ -779,18 +880,23 @@
   <div class="page-bg-overlay"></div>
 </div>
 
-<nav class="menu-bar">
+<nav class="menu-bar" id="main-nav">
   <a href="#" class="nav-logo">FC</a>
-  <div class="nav-links">
+  <div class="nav-links" id="nav-links">
     <a href="#trip">The Trip</a>
     <a href="#overview">Overview</a>
     <a href="#rooms">Rooms</a>
     <a href="#roster">Who's Coming</a>
     <a href="#budget">Spending Budget</a>
+    <a href="#mogwase">Mogwase Money</a>
     <a href="#monthly">Instalments</a>
     <a href="#layup">LayUp</a>
     <a href="#banking">Banking Details</a>
-    <a href="#payments">More</a>
+    <a href="#payments">Payments</a>
+  </div>
+  <div class="nav-more-wrap" id="nav-more-wrap" style="display:none;">
+    <button class="nav-more-btn" id="nav-more-btn" onclick="toggleMoreMenu(event)">More &#8964;</button>
+    <div class="nav-more-menu" id="nav-more-menu"></div>
   </div>
 </nav>
 
@@ -873,7 +979,7 @@
 <section id="roster">
   <div class="container">
     <div class="section-label">Who's Coming</div>
-    <h2>The Crew</h2>
+    <h2>The Girlies</h2>
     <p class="lede">6 pax, all costs above are split evenly across this group.</p>
     <div class="roster-list">
       <div class="roster-entry">
@@ -909,45 +1015,71 @@
     <div class="section-label">Spending Budget</div>
     <h2>Itemised Breakdown</h2>
     <table>
-      <thead><tr><th>Item</th><th>Group Total</th><th>Per Person</th></tr></thead>
+      <thead><tr><th>Item</th><th>Group Total</th><th>Actual Spend</th></tr></thead>
       <tbody>
-        <tr class="category"><td>Shuttle</td><td>R6,500</td><td>R1,083.33</td></tr>
-        <tr class="category"><td>Hubbly for Outside</td><td>R4,050</td><td>R675.00</td></tr>
+        <tr class="category"><td>Shuttle</td><td>R6,500</td><td>R6,500</td></tr>
+        <tr class="category"><td>Hubbly for Outside</td><td>R4,050</td><td>-</td></tr>
         <tr class="subitem"><td>3x per day @ R450, over 3 days</td><td></td><td></td></tr>
-        <tr class="category"><td>Drinks for the Road</td><td>R3,400</td><td>R566.67</td></tr>
+        <tr class="category"><td>Drinks for the Road</td><td>R3,400</td><td>R3,400</td></tr>
         <tr class="subitem"><td>2x Box of Istropez</td><td></td><td></td></tr>
-        <tr class="category"><td>Drinks for Breakfast</td><td>R2,400</td><td>R400.00</td></tr>
+        <tr class="category"><td>Drinks for Breakfast</td><td>R2,400</td><td>R2,400</td></tr>
         <tr class="subitem"><td>2x Box of Bubbles</td><td></td><td></td></tr>
-        <tr class="category"><td>Hubbly for Room</td><td>R600</td><td>R100.00</td></tr>
+        <tr class="category"><td>Hubbly for Room</td><td>R600</td><td>R600</td></tr>
         <tr class="subitem"><td>1x 4-Pipe + Facilities</td><td></td><td></td></tr>
-        <tr class="category"><td>Recovery Pack</td><td>R1,485</td><td>R247.50</td></tr>
-        <tr class="subitem"><td>Powerade</td><td>R300</td><td>R50.00</td></tr>
-        <tr class="subitem"><td>Rehidrate</td><td>R370</td><td>R61.67</td></tr>
-        <tr class="subitem"><td>Grandpa</td><td>R90</td><td>R15.00</td></tr>
-        <tr class="subitem"><td>Edibles</td><td>R300</td><td>R50.00</td></tr>
-        <tr class="subitem"><td>Gaviscon</td><td>R200</td><td>R33.33</td></tr>
-        <tr class="subitem"><td>Sparkling Water x6</td><td>R150</td><td>R25.00</td></tr>
-        <tr class="subitem"><td>Still Water x6</td><td>R75</td><td>R12.50</td></tr>
-        <tr class="category"><td>Snacks</td><td>R600</td><td>R100.00</td></tr>
-        <tr class="category"><td>Food for Lunch &amp; Dinner</td><td>R5,400</td><td>R900.00</td></tr>
-        <tr class="category"><td>Drinks for the Room</td><td>R2,590</td><td>R431.67</td></tr>
-        <tr class="subitem"><td>Olmeca x3 bottles (1 per room @ R330)</td><td>R990</td><td>R165.00</td></tr>
-        <tr class="subitem"><td>Don Julio (1 bottle, shared)</td><td>R1,300</td><td>R216.67</td></tr>
-        <tr class="subitem"><td>Dash</td><td>R300</td><td>R50.00</td></tr>
-        <tr class="category"><td>Drinks for Outside</td><td>R21,600</td><td>R3,600.00</td></tr>
+        <tr class="category"><td>Recovery Pack</td><td>R1,485</td><td>R1,415</td></tr>
+        <tr class="subitem"><td>Powerade</td><td>R300</td><td>R325</td></tr>
+        <tr class="subitem"><td>Rehidrate</td><td>R370</td><td>R365</td></tr>
+        <tr class="subitem"><td>Grandpa</td><td>R90</td><td>R80</td></tr>
+        <tr class="subitem"><td>Edibles</td><td>R300</td><td>R300</td></tr>
+        <tr class="subitem"><td>Gaviscon</td><td>R200</td><td>R115</td></tr>
+        <tr class="subitem"><td>Sparkling Water x6</td><td>R150</td><td>R165</td></tr>
+        <tr class="subitem"><td>Still Water x6</td><td>R75</td><td>R65</td></tr>
+        <tr class="category"><td>Snacks</td><td>R600</td><td>R625</td></tr>
+        <tr class="category"><td>Food for Lunch &amp; Dinner</td><td>R5,400</td><td>-</td></tr>
+        <tr class="category"><td>Drinks for Hotel</td><td>R2,590</td><td>R1,950</td></tr>
+        <tr class="subitem"><td>Bottle of choice x3 bottles (1 per room @ R330)</td><td>R990</td><td>R990</td></tr>
+        <tr class="subitem"><td>Don Julio (1 bottle, shared)</td><td>R1,300</td><td>R780</td></tr>
+        <tr class="subitem"><td>Dash</td><td>R300</td><td>R120</td></tr>
+        <tr class="subitem"><td>Shot Glasses</td><td>-</td><td>R60</td></tr>
+        <tr class="category"><td>Drinks for Outside</td><td>R21,600</td><td>-</td></tr>
         <tr class="subitem"><td>R1,200pp/day × 3 days</td><td></td><td></td></tr>
-        <tr class="total"><td>Grand Total</td><td>R48,625</td><td>R8,104.17</td></tr>
+        <tr class="total"><td>Grand Total</td><td>R48,625</td><td>R16,890</td></tr>
       </tbody>
     </table>
     <div class="note-box" style="margin-top: 20px;">
-      This is the spending budget only — shuttle, drinks, food, snacks. It does not include LayUp room payments, which run on a separate schedule below.
+      <strong>Note on room bottles:</strong> the room bottles were changed from the 3 Olmeca (R990) to Casamigos x2 (R1,000) and Inverroche (R430), R1,430 in total. The R440 difference was topped up by the girls and received, so this line is recorded at its R990 budget.
     </div>
+    <div class="note-box" style="margin-top: 12px;">
+      <strong>Note on the shuttle:</strong> the shuttle came to R8,000, R1,500 over budget. The gap was covered by a R250 top-up per person, so this line is recorded at its R6,500 budget.
+    </div>
+    <h2 style="margin-top: 48px;">Allocated vs Actual Spend</h2>
+    <p class="lede">The items spent on so far were allocated <strong>R17,575</strong> and came to <strong>R16,890</strong>. Drinks for Hotel did most of the saving at R640 under, with the Recovery Pack adding R70 and Snacks running R25 over. The <strong>R685</strong> left over rolls into the Sun City spend rather than being paid back.</p>
   </div>
 </section>
 
-<section id="monthly">
+<section id="mogwase">
   <div class="container">
-    <div class="section-label">Monthly Instalments</div>
+    <div class="section-label">Mogwase Money</div>
+    <h2>Suncity Available Spend</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Group Total</th><th>Per Day (Approx.)</th></tr></thead>
+      <tbody>
+        <tr class="category"><td>Hubbly for Outside</td><td>R4,050</td><td>R1,012.50</td></tr>
+        <tr class="category"><td>Food for Lunch &amp; Dinner</td><td>R5,400</td><td>R1,350.00</td></tr>
+        <tr class="category"><td>Drinks for Outside</td><td>R21,600</td><td>R5,400.00</td></tr>
+        <tr class="category"><td>Change Carried Over</td><td>R685</td><td>R171.25</td></tr>
+        <tr class="total"><td>Total</td><td>R31,735</td><td>R7,933.75</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="monthly" class="section-expandable">
+  <div class="expandable-header" onclick="toggleSection('monthly-body', this)">
+      <span style="font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">Monthly Instalments</span>
+      <span class="expand-toggle">&#8964;</span>
+  </div>
+  <div class="container"><div class="expandable-body" id="monthly-body">
     <h2>Spending Budget, Paid Monthly</h2>
     <p class="lede">Same per-person total — R8,104.17 — split two ways depending on when you start. Pick whichever matches your timeline.</p>
     <div class="two-col">
@@ -970,23 +1102,26 @@
       <div class="two-col" style="margin-top: 20px; gap: 48px;">
         <div>
           <div class="stat-sub" style="margin-bottom: 8px;">4-Month Plan, Jul–Sep</div>
-          <div class="stat-value" style="font-size: 28px;">R3,616.04</div>
+          <div class="stat-value">R3,616.04</div>
           <div class="stat-sub">per person, per month</div>
         </div>
         <div>
           <div class="stat-sub" style="margin-bottom: 8px;">3-Month Plan, Jul–Sep</div>
-          <div class="stat-value" style="font-size: 28px;">R4,291.39</div>
+          <div class="stat-value">R4,291.39</div>
           <div class="stat-sub">per person, per month</div>
         </div>
       </div>
     </div>
 
-  </div>
+  </div></div>
 </section>
 
-<section id="layup">
-  <div class="container">
-    <div class="section-label">LayUp Room Package</div>
+<section id="layup" class="section-expandable">
+  <div class="expandable-header" onclick="toggleSection('layup-body', this)">
+      <span style="font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">LayUp Room Package</span>
+      <span class="expand-toggle">&#8964;</span>
+  </div>
+  <div class="container"><div class="expandable-body" id="layup-body">
     <h2>Where We Stand</h2>
     <p class="lede">Placed via Howler/LayUp. This is the accommodation package, billed separately from the spending budget above.</p>
 
@@ -998,20 +1133,20 @@
       </div>
       <div class="stat-block stat-block-warm">
         <div class="stat-label">Remaining Balance</div>
-        <div class="stat-value">R28,497.09</div>
-        <div class="stat-sub">R4,749.52 per person</div>
+        <div class="stat-value">R0.00</div>
+        <div class="stat-sub">R0.00 per person</div>
       </div>
     </div>
 
     <div class="progress-block progress-block-warm">
       <div class="progress-top">
         <span class="lbl">Paid to Date</span>
-        <span class="pct">55%</span>
+        <span class="pct">100%</span>
       </div>
       <div class="bar"><div class="bar-fill"></div></div>
       <div class="progress-foot">
-        <span>R34,829.77 paid</span>
-        <span>R28,497.09 remaining</span>
+        <span>R63,326.86 paid</span>
+        <span>R0.00 remaining</span>
       </div>
     </div>
 
@@ -1019,9 +1154,9 @@
       <div class="t-row"><div class="t-date">15 Apr 2026</div><div>Deposit</div><div class="t-amount">R15,831.71</div><div class="t-status paid">Paid</div></div>
       <div class="t-row"><div class="t-date">28 May 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
       <div class="t-row"><div class="t-date">27 Jun 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
-      <div class="t-row"><div class="t-date">28 Jul 2026</div><div>Due</div><div class="t-amount">R9,499.03</div><div class="t-status upcoming">Upcoming</div></div>
-      <div class="t-row"><div class="t-date">28 Aug 2026</div><div>Due</div><div class="t-amount">R9,499.03</div><div class="t-status upcoming">Upcoming</div></div>
-      <div class="t-row"><div class="t-date">28 Sep 2026</div><div>Due</div><div class="t-amount">R9,499.03</div><div class="t-status upcoming">Upcoming</div></div>
+      <div class="t-row"><div class="t-date">28 Jul 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
+      <div class="t-row"><div class="t-date">28 Aug 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
+      <div class="t-row"><div class="t-date">28 Sep 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
     </div>
 
     <div class="note-box">
@@ -1036,12 +1171,15 @@
       per month, rising to <strong>~R4,291 per person</strong> per month in July
       through September once the room instalment is included.
     </div>
-  </div>
+  </div></div>
 </section>
 
-<section id="banking">
-  <div class="container">
-    <div class="section-label">Banking Details</div>
+<section id="banking" class="section-expandable">
+  <div class="expandable-header" onclick="toggleSection('banking-body', this)">
+      <span style="font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">Banking Details</span>
+      <span class="expand-toggle">&#8964;</span>
+  </div>
+  <div class="container"><div class="expandable-body" id="banking-body">
     <h2>Where to Send Your Money</h2>
     <p class="lede">Two separate accounts depending on what you're paying for. Make sure your reference is exact — every single time.</p>
 
@@ -1054,16 +1192,16 @@
         <div class="banking-rows">
           <div class="banking-row">
             <span class="banking-key">Account holder</span>
-            <span class="banking-val">TK Mthembu</span>
+            <span class="banking-val">TK MTHEMBU</span>
           </div>
           <div class="banking-row">
             <span class="banking-key">Bank</span>
-            <span class="banking-val">Capitec</span>
+            <span class="banking-val">CAPITEC</span>
           </div>
 
           <div class="banking-row">
             <span class="banking-key">Account number</span>
-            <span class="banking-val">1773041930</span>
+            <span class="banking-val"><span style="unicode-bidi:bidi-override;direction:ltr;">1773041930</span></span>
           </div>
           <div class="banking-row">
             <span class="banking-key">Branch code</span>
@@ -1084,16 +1222,16 @@
         <div class="banking-rows">
           <div class="banking-row">
             <span class="banking-key">Account holder</span>
-            <span class="banking-val">BS Mpai</span>
+            <span class="banking-val">BS MPAI</span>
           </div>
           <div class="banking-row">
             <span class="banking-key">Bank</span>
-            <span class="banking-val">Investec</span>
+            <span class="banking-val">INVESTEC</span>
           </div>
 
           <div class="banking-row">
             <span class="banking-key">Account number</span>
-            <span class="banking-val">70001422527</span>
+            <span class="banking-val"><span style="unicode-bidi:bidi-override;direction:ltr;">70001422527</span></span>
           </div>
           <div class="banking-row">
             <span class="banking-key">Branch code</span>
@@ -1102,8 +1240,8 @@
         </div>
         <div class="banking-ref">
           <div class="banking-ref-label">Reference format</div>
-          <div class="banking-ref-value">Name_FC</div>
-          <div class="banking-ref-example">e.g. Rati_FC &nbsp;·&nbsp; Kaede_FC</div>
+          <div class="banking-ref-value">501001001_Name</div>
+          <div class="banking-ref-example">e.g. 501001001_Rati &nbsp;·&nbsp; 501001001_Kaede</div>
         </div>
       </div>
 
@@ -1112,13 +1250,13 @@
     <div class="note-box" style="margin-top: 32px;">
       Use the <strong>exact reference format</strong> shown above every time you make a payment. Incorrect or missing references make it difficult to reconcile who has paid what.
     </div>
-  </div>
+  </div></div>
 </section>
 
 
 <section id="payments" class="section-expandable">
   <div class="expandable-header" onclick="toggleSection('payments-body', this)">
-      <span style="font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">Payments</span>
+      <span style="font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">Payments</span>
       <span class="expand-toggle">&#8964;</span>
   </div>
   <div class="container"><div class="expandable-body" id="payments-body">
@@ -1139,6 +1277,118 @@
 <footer>FONCITY 2026 — GROUP BUDGET · LAST UPDATED JULY 2026</footer>
 
 <script>
+  var moreScrolling = false;
+
+  function toggleMoreMenu(e) {
+    e.stopPropagation();
+    var menu = document.getElementById('nav-more-menu');
+    var isOpen = menu.classList.contains('open');
+    if (!isOpen) {
+      if (window.scrollY === 0) {
+        // already at top — open immediately
+        menu.classList.add('open');
+      } else {
+        // scroll to top first then open
+        moreScrolling = true;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        var scrollCheck = setInterval(function() {
+          if (window.scrollY === 0) {
+            clearInterval(scrollCheck);
+            setTimeout(function() {
+              menu.classList.add('open');
+              setTimeout(function() { moreScrolling = false; }, 300);
+            }, 350);
+          }
+        }, 50);
+      }
+    } else {
+      menu.classList.remove('open');
+    }
+  }
+
+  document.addEventListener('click', function() {
+    var m = document.getElementById('nav-more-menu');
+    if (m) m.classList.remove('open');
+  });
+
+  function buildMoreNav() {
+    var nav = document.getElementById('main-nav');
+    var navLinks = document.getElementById('nav-links');
+    var moreWrap = document.getElementById('nav-more-wrap');
+    var moreMenu = document.getElementById('nav-more-menu');
+    var logo = document.querySelector('.nav-logo');
+    if (!navLinks || !moreWrap || !nav) return;
+
+    var links = Array.from(navLinks.querySelectorAll('a'));
+
+    // Reset — show all links, clear dropdown
+    links.forEach(function(a) { a.style.display = ''; });
+    moreMenu.innerHTML = '';
+    moreWrap.style.display = 'none';
+    navLinks.style.flexWrap = 'nowrap';
+
+    // Measure available space dynamically
+    var navPad = 96; // left + right padding of nav
+    var logoW = logo ? logo.getBoundingClientRect().width + parseInt(getComputedStyle(logo).marginRight) : 0;
+    var moreW = 80; // estimated width of More button + separator
+    var available = nav.getBoundingClientRect().width - navPad - logoW - moreW;
+
+    // Measure each link's natural width
+    var totalW = 0;
+    var gap = 32;
+    var overflow = [];
+
+    links.forEach(function(a) {
+      var w = a.getBoundingClientRect().width + gap;
+      totalW += w;
+      if (totalW > available) overflow.push(a);
+    });
+
+    if (overflow.length > 0) {
+      overflow.forEach(function(a) { a.style.display = 'none'; });
+      overflow.forEach(function(a) {
+        var clone = a.cloneNode(true);
+        clone.style.display = '';
+        clone.addEventListener('click', function() {
+          document.getElementById('nav-more-menu').classList.remove('open');
+        });
+        moreMenu.appendChild(clone);
+      });
+      moreWrap.style.display = 'flex';
+      moreWrap.style.alignItems = 'center';
+    }
+  }
+
+  // Close More menu on scroll (but not when More button triggered the scroll)
+  window.addEventListener('scroll', function() {
+    if (moreScrolling) return;
+    var m = document.getElementById('nav-more-menu');
+    if (m) m.classList.remove('open');
+  }, { passive: true });
+
+  window.addEventListener('resize', buildMoreNav);
+  window.addEventListener('load', buildMoreNav);
+  setTimeout(buildMoreNav, 200);
+
+  function openSectionFor(hash) {
+    if (!hash) return;
+    var sec = document.querySelector(hash);
+    if (!sec || !sec.classList.contains('section-expandable')) return;
+    var body = sec.querySelector('.expandable-body');
+    var toggle = sec.querySelector('.expand-toggle');
+    if (body && !body.classList.contains('open')) {
+      body.classList.add('open');
+      if (toggle) toggle.classList.add('open');
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (a) openSectionFor(a.getAttribute('href'));
+  });
+
+  window.addEventListener('load', function() { openSectionFor(window.location.hash); });
+
   function toggleSection(bodyId, header) {
     var body = document.getElementById(bodyId);
     var toggle = header.querySelector('.expand-toggle');

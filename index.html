@@ -279,7 +279,7 @@
   section:last-of-type { border-bottom: none; }
 
   .section-label {
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -288,7 +288,7 @@
   }
 
   h2 {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 200;
     letter-spacing: 0.5px;
     color: var(--black);
@@ -300,7 +300,7 @@
     font-weight: 300;
     color: var(--gray-mid);
     line-height: 1.85;
-    max-width: 620px;
+    max-width: 780px;
   }
 
   p.lede strong { font-weight: 500; color: var(--black); }
@@ -514,7 +514,7 @@
     font-weight: 300;
     color: var(--gray-mid);
     line-height: 1.8;
-    max-width: 620px;
+    max-width: 780px;
   }
 
   .room-detail-text strong { color: var(--black); font-weight: 500; }
@@ -600,7 +600,7 @@
     border-bottom: 0.5px solid var(--black);
   }
 
-  thead th:nth-child(2), thead th:last-child { text-align: right; }
+  thead th:nth-child(n+2) { text-align: right; }
 
   tbody td {
     padding: 16px 0;
@@ -608,7 +608,7 @@
     font-weight: 300;
   }
 
-  tbody td:nth-child(2), tbody td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody td:nth-child(n+2) { text-align: right; font-variant-numeric: tabular-nums; }
 
   tr.category td:first-child { font-weight: 400; color: var(--black); }
 
@@ -707,7 +707,7 @@
   .bar-fill {
     height: 100%;
     background: var(--black);
-    width: 55%;
+    width: 100%;
   }
 
   .progress-foot {
@@ -802,7 +802,7 @@
     h1 { font-size: clamp(40.5px, 7vw, 80.5px); }
 
     /* H2 section headings — mobile */
-    h2 { font-size: 19px; }
+    h2 { font-size: 17px; }
     .roster-text { font-size: 16px; }
 
     /* Card numbers + LayUp + progress — 27px on mobile */
@@ -870,13 +870,6 @@
       padding: 10px 6px;
     }
 
-    tbody td:nth-child(2) {
-      display: none;
-    }
-
-    thead th:nth-child(2) {
-      display: none;
-    }
   }
 </style>
 </head>
@@ -895,6 +888,7 @@
     <a href="#rooms">Rooms</a>
     <a href="#roster">Who's Coming</a>
     <a href="#budget">Spending Budget</a>
+    <a href="#mogwase">Mogwase Money</a>
     <a href="#monthly">Instalments</a>
     <a href="#layup">LayUp</a>
     <a href="#banking">Banking Details</a>
@@ -985,7 +979,7 @@
 <section id="roster">
   <div class="container">
     <div class="section-label">Who's Coming</div>
-    <h2>The Crew</h2>
+    <h2>The Girlies</h2>
     <p class="lede">6 pax, all costs above are split evenly across this group.</p>
     <div class="roster-list">
       <div class="roster-entry">
@@ -1021,45 +1015,71 @@
     <div class="section-label">Spending Budget</div>
     <h2>Itemised Breakdown</h2>
     <table>
-      <thead><tr><th>Item</th><th>Group Total</th><th>Per Person</th></tr></thead>
+      <thead><tr><th>Item</th><th>Group Total</th><th>Actual Spend</th></tr></thead>
       <tbody>
-        <tr class="category"><td>Shuttle</td><td>R6,500</td><td>R1,083.33</td></tr>
-        <tr class="category"><td>Hubbly for Outside</td><td>R4,050</td><td>R675.00</td></tr>
+        <tr class="category"><td>Shuttle</td><td>R6,500</td><td>R6,500</td></tr>
+        <tr class="category"><td>Hubbly for Outside</td><td>R4,050</td><td>-</td></tr>
         <tr class="subitem"><td>3x per day @ R450, over 3 days</td><td></td><td></td></tr>
-        <tr class="category"><td>Drinks for the Road</td><td>R3,400</td><td>R566.67</td></tr>
+        <tr class="category"><td>Drinks for the Road</td><td>R3,400</td><td>R3,400</td></tr>
         <tr class="subitem"><td>2x Box of Istropez</td><td></td><td></td></tr>
-        <tr class="category"><td>Drinks for Breakfast</td><td>R2,400</td><td>R400.00</td></tr>
+        <tr class="category"><td>Drinks for Breakfast</td><td>R2,400</td><td>R2,400</td></tr>
         <tr class="subitem"><td>2x Box of Bubbles</td><td></td><td></td></tr>
-        <tr class="category"><td>Hubbly for Room</td><td>R600</td><td>R100.00</td></tr>
+        <tr class="category"><td>Hubbly for Room</td><td>R600</td><td>R600</td></tr>
         <tr class="subitem"><td>1x 4-Pipe + Facilities</td><td></td><td></td></tr>
-        <tr class="category"><td>Recovery Pack</td><td>R1,485</td><td>R247.50</td></tr>
-        <tr class="subitem"><td>Powerade</td><td>R300</td><td>R50.00</td></tr>
-        <tr class="subitem"><td>Rehidrate</td><td>R370</td><td>R61.67</td></tr>
-        <tr class="subitem"><td>Grandpa</td><td>R90</td><td>R15.00</td></tr>
-        <tr class="subitem"><td>Edibles</td><td>R300</td><td>R50.00</td></tr>
-        <tr class="subitem"><td>Gaviscon</td><td>R200</td><td>R33.33</td></tr>
-        <tr class="subitem"><td>Sparkling Water x6</td><td>R150</td><td>R25.00</td></tr>
-        <tr class="subitem"><td>Still Water x6</td><td>R75</td><td>R12.50</td></tr>
-        <tr class="category"><td>Snacks</td><td>R600</td><td>R100.00</td></tr>
-        <tr class="category"><td>Food for Lunch &amp; Dinner</td><td>R5,400</td><td>R900.00</td></tr>
-        <tr class="category"><td>Drinks for the Room</td><td>R2,590</td><td>R431.67</td></tr>
-        <tr class="subitem"><td>Olmeca x3 bottles (1 per room @ R330)</td><td>R990</td><td>R165.00</td></tr>
-        <tr class="subitem"><td>Don Julio (1 bottle, shared)</td><td>R1,300</td><td>R216.67</td></tr>
-        <tr class="subitem"><td>Dash</td><td>R300</td><td>R50.00</td></tr>
-        <tr class="category"><td>Drinks for Outside</td><td>R21,600</td><td>R3,600.00</td></tr>
+        <tr class="category"><td>Recovery Pack</td><td>R1,485</td><td>R1,415</td></tr>
+        <tr class="subitem"><td>Powerade</td><td>R300</td><td>R325</td></tr>
+        <tr class="subitem"><td>Rehidrate</td><td>R370</td><td>R365</td></tr>
+        <tr class="subitem"><td>Grandpa</td><td>R90</td><td>R80</td></tr>
+        <tr class="subitem"><td>Edibles</td><td>R300</td><td>R300</td></tr>
+        <tr class="subitem"><td>Gaviscon</td><td>R200</td><td>R115</td></tr>
+        <tr class="subitem"><td>Sparkling Water x6</td><td>R150</td><td>R165</td></tr>
+        <tr class="subitem"><td>Still Water x6</td><td>R75</td><td>R65</td></tr>
+        <tr class="category"><td>Snacks</td><td>R600</td><td>R625</td></tr>
+        <tr class="category"><td>Food for Lunch &amp; Dinner</td><td>R5,400</td><td>-</td></tr>
+        <tr class="category"><td>Drinks for Hotel</td><td>R2,590</td><td>R1,950</td></tr>
+        <tr class="subitem"><td>Bottle of choice x3 bottles (1 per room @ R330)</td><td>R990</td><td>R990</td></tr>
+        <tr class="subitem"><td>Don Julio (1 bottle, shared)</td><td>R1,300</td><td>R780</td></tr>
+        <tr class="subitem"><td>Dash</td><td>R300</td><td>R120</td></tr>
+        <tr class="subitem"><td>Shot Glasses</td><td>-</td><td>R60</td></tr>
+        <tr class="category"><td>Drinks for Outside</td><td>R21,600</td><td>-</td></tr>
         <tr class="subitem"><td>R1,200pp/day × 3 days</td><td></td><td></td></tr>
-        <tr class="total"><td>Grand Total</td><td>R48,625</td><td>R8,104.17</td></tr>
+        <tr class="total"><td>Grand Total</td><td>R48,625</td><td>R16,890</td></tr>
       </tbody>
     </table>
     <div class="note-box" style="margin-top: 20px;">
-      This is the spending budget only — shuttle, drinks, food, snacks. It does not include LayUp room payments, which run on a separate schedule below.
+      <strong>Note on room bottles:</strong> the room bottles were changed from the 3 Olmeca (R990) to Casamigos x2 (R1,000) and Inverroche (R430), R1,430 in total. The R440 difference was topped up by the girls and received, so this line is recorded at its R990 budget.
     </div>
+    <div class="note-box" style="margin-top: 12px;">
+      <strong>Note on the shuttle:</strong> the shuttle came to R8,000, R1,500 over budget. The gap was covered by a R250 top-up per person, so this line is recorded at its R6,500 budget.
+    </div>
+    <h2 style="margin-top: 48px;">Allocated vs Actual Spend</h2>
+    <p class="lede">The items spent on so far were allocated <strong>R17,575</strong> and came to <strong>R16,890</strong>. Drinks for Hotel did most of the saving at R640 under, with the Recovery Pack adding R70 and Snacks running R25 over. The <strong>R685</strong> left over rolls into the Sun City spend rather than being paid back.</p>
   </div>
 </section>
 
-<section id="monthly">
+<section id="mogwase">
   <div class="container">
-    <div class="section-label">Monthly Instalments</div>
+    <div class="section-label">Mogwase Money</div>
+    <h2>Suncity Available Spend</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Group Total</th><th>Per Day (Approx.)</th></tr></thead>
+      <tbody>
+        <tr class="category"><td>Hubbly for Outside</td><td>R4,050</td><td>R1,012.50</td></tr>
+        <tr class="category"><td>Food for Lunch &amp; Dinner</td><td>R5,400</td><td>R1,350.00</td></tr>
+        <tr class="category"><td>Drinks for Outside</td><td>R21,600</td><td>R5,400.00</td></tr>
+        <tr class="category"><td>Change Carried Over</td><td>R685</td><td>R171.25</td></tr>
+        <tr class="total"><td>Total</td><td>R31,735</td><td>R7,933.75</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="monthly" class="section-expandable">
+  <div class="expandable-header" onclick="toggleSection('monthly-body', this)">
+      <span style="font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">Monthly Instalments</span>
+      <span class="expand-toggle">&#8964;</span>
+  </div>
+  <div class="container"><div class="expandable-body" id="monthly-body">
     <h2>Spending Budget, Paid Monthly</h2>
     <p class="lede">Same per-person total — R8,104.17 — split two ways depending on when you start. Pick whichever matches your timeline.</p>
     <div class="two-col">
@@ -1093,12 +1113,15 @@
       </div>
     </div>
 
-  </div>
+  </div></div>
 </section>
 
-<section id="layup">
-  <div class="container">
-    <div class="section-label">LayUp Room Package</div>
+<section id="layup" class="section-expandable">
+  <div class="expandable-header" onclick="toggleSection('layup-body', this)">
+      <span style="font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">LayUp Room Package</span>
+      <span class="expand-toggle">&#8964;</span>
+  </div>
+  <div class="container"><div class="expandable-body" id="layup-body">
     <h2>Where We Stand</h2>
     <p class="lede">Placed via Howler/LayUp. This is the accommodation package, billed separately from the spending budget above.</p>
 
@@ -1110,20 +1133,20 @@
       </div>
       <div class="stat-block stat-block-warm">
         <div class="stat-label">Remaining Balance</div>
-        <div class="stat-value">R28,497.09</div>
-        <div class="stat-sub">R4,749.52 per person</div>
+        <div class="stat-value">R0.00</div>
+        <div class="stat-sub">R0.00 per person</div>
       </div>
     </div>
 
     <div class="progress-block progress-block-warm">
       <div class="progress-top">
         <span class="lbl">Paid to Date</span>
-        <span class="pct">55%</span>
+        <span class="pct">100%</span>
       </div>
       <div class="bar"><div class="bar-fill"></div></div>
       <div class="progress-foot">
-        <span>R34,829.77 paid</span>
-        <span>R28,497.09 remaining</span>
+        <span>R63,326.86 paid</span>
+        <span>R0.00 remaining</span>
       </div>
     </div>
 
@@ -1131,9 +1154,9 @@
       <div class="t-row"><div class="t-date">15 Apr 2026</div><div>Deposit</div><div class="t-amount">R15,831.71</div><div class="t-status paid">Paid</div></div>
       <div class="t-row"><div class="t-date">28 May 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
       <div class="t-row"><div class="t-date">27 Jun 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
-      <div class="t-row"><div class="t-date">28 Jul 2026</div><div>Due</div><div class="t-amount">R9,499.03</div><div class="t-status upcoming">Upcoming</div></div>
-      <div class="t-row"><div class="t-date">28 Aug 2026</div><div>Due</div><div class="t-amount">R9,499.03</div><div class="t-status upcoming">Upcoming</div></div>
-      <div class="t-row"><div class="t-date">28 Sep 2026</div><div>Due</div><div class="t-amount">R9,499.03</div><div class="t-status upcoming">Upcoming</div></div>
+      <div class="t-row"><div class="t-date">28 Jul 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
+      <div class="t-row"><div class="t-date">28 Aug 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
+      <div class="t-row"><div class="t-date">28 Sep 2026</div><div>Contribution</div><div class="t-amount">R9,499.03</div><div class="t-status paid">Paid</div></div>
     </div>
 
     <div class="note-box">
@@ -1148,12 +1171,15 @@
       per month, rising to <strong>~R4,291 per person</strong> per month in July
       through September once the room instalment is included.
     </div>
-  </div>
+  </div></div>
 </section>
 
-<section id="banking">
-  <div class="container">
-    <div class="section-label">Banking Details</div>
+<section id="banking" class="section-expandable">
+  <div class="expandable-header" onclick="toggleSection('banking-body', this)">
+      <span style="font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">Banking Details</span>
+      <span class="expand-toggle">&#8964;</span>
+  </div>
+  <div class="container"><div class="expandable-body" id="banking-body">
     <h2>Where to Send Your Money</h2>
     <p class="lede">Two separate accounts depending on what you're paying for. Make sure your reference is exact — every single time.</p>
 
@@ -1224,13 +1250,13 @@
     <div class="note-box" style="margin-top: 32px;">
       Use the <strong>exact reference format</strong> shown above every time you make a payment. Incorrect or missing references make it difficult to reconcile who has paid what.
     </div>
-  </div>
+  </div></div>
 </section>
 
 
 <section id="payments" class="section-expandable">
   <div class="expandable-header" onclick="toggleSection('payments-body', this)">
-      <span style="font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">Payments</span>
+      <span style="font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--black);">Payments</span>
       <span class="expand-toggle">&#8964;</span>
   </div>
   <div class="container"><div class="expandable-body" id="payments-body">
@@ -1343,6 +1369,25 @@
   window.addEventListener('resize', buildMoreNav);
   window.addEventListener('load', buildMoreNav);
   setTimeout(buildMoreNav, 200);
+
+  function openSectionFor(hash) {
+    if (!hash) return;
+    var sec = document.querySelector(hash);
+    if (!sec || !sec.classList.contains('section-expandable')) return;
+    var body = sec.querySelector('.expandable-body');
+    var toggle = sec.querySelector('.expand-toggle');
+    if (body && !body.classList.contains('open')) {
+      body.classList.add('open');
+      if (toggle) toggle.classList.add('open');
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (a) openSectionFor(a.getAttribute('href'));
+  });
+
+  window.addEventListener('load', function() { openSectionFor(window.location.hash); });
 
   function toggleSection(bodyId, header) {
     var body = document.getElementById(bodyId);
