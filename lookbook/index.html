@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no">
+<title>FonCity Lookbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --black: #0a0a0a;
+    --btn: #1f1f1f;
+    --gray-border: rgba(0,0,0,0.08);
+    --gray-line: rgba(0,0,0,0.14);
+    --gray-text: #6b6b6b;
+    --gray-mid: #4a4a4a;
+    --tile: #f3f0eb;
+    --section-spacing: 48px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #fbfaf8;
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1040px; margin: 0 auto; padding: 0 48px; }
+
+  /* PAGE BACKGROUND */
+  .page-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+  .page-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(20px); transform: scale(1.1); }
+  .page-bg-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.90); }
+
+  /* NAV */
+  nav.menu-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; flex-wrap: wrap; row-gap: 8px;
+    padding: 28px 48px;
+    background: transparent;
+    transition: background 0.35s ease;
+  }
+  nav.menu-bar.scrolled { background-size: cover; background-position: top center; }
+  .nav-logo {
+    font-size: 13px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.92); text-decoration: none; margin-right: 40px; flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; row-gap: 6px; }
+  nav.menu-bar a:not(.nav-logo) {
+    font-size: 10px; font-weight: 400; letter-spacing: 2.5px; text-transform: uppercase;
+    color: rgba(255,255,255,0.85); text-decoration: none;
+    padding-bottom: 2px; border-bottom: 0.5px solid transparent;
+    transition: color 0.35s ease, border-bottom-color 0.35s ease;
+  }
+  nav.menu-bar a:not(.nav-logo):hover,
+  nav.menu-bar a.active { color: #fff; border-bottom-color: rgba(255,255,255,0.6); }
+  nav.menu-bar.scrolled .nav-logo,
+  nav.menu-bar.scrolled a:not(.nav-logo) { color: rgba(255,255,255,0.92); font-weight: 600; }
+
+  /* HERO */
+  header.hero {
+    position: relative; width: 100%; min-height: 70vh;
+    display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden;
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .hero-overlay { position: absolute; inset: 0; background: rgba(10,10,10,0.32); z-index: 1; }
+  .hero-content { position: relative; z-index: 2; padding: 48px 24px; }
+  .eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.85); margin-bottom: 28px; }
+  h1 { font-size: clamp(40px, 7vw, 80px); font-weight: 200; letter-spacing: 2px; line-height: 1.1; color: var(--white); margin-bottom: 24px; }
+  .hero-divider { width: 40px; height: 0.5px; background: rgba(255,255,255,0.5); margin: 0 auto 24px; }
+  .dates { font-size: 13px; font-weight: 300; letter-spacing: 1px; color: rgba(255,255,255,0.85); }
+
+  /* TABS (boxed segmented) */
+  .tabbar { padding: 40px 0 8px; }
+  .tabs { display: flex; border: 0.5px solid var(--gray-line); border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.6); }
+  .tabs button {
+    flex: 1; font-family: inherit; font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase;
+    padding: 14px 10px; border: none; background: transparent; color: var(--gray-mid); cursor: pointer;
+    transition: background 0.35s ease, color 0.35s ease;
+  }
+  .tabs button + button { border-left: 0.5px solid var(--gray-line); }
+  .tabs button:hover { background: rgba(0,0,0,0.03); }
+  .tabs button.active { background: var(--btn); color: var(--white); }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* SECTIONS */
+  section { padding: var(--section-spacing) 0; border-bottom: 0.5px solid var(--gray-border); }
+  section:last-of-type { border-bottom: none; }
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gray-text); margin-bottom: 12px; }
+  h2 { font-size: 30px; font-weight: 200; letter-spacing: 0.5px; margin-bottom: 12px; }
+  p.lede { font-size: 15px; font-weight: 300; color: var(--gray-mid); line-height: 1.85; max-width: 780px; }
+  p.lede strong { font-weight: 500; color: var(--black); }
+
+  /* DAY + LOOK */
+  .day-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+  .day-head h2 { margin-bottom: 0; }
+  .weather { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-text); }
+
+  .look { padding: 28px 0 36px; border-top: 0.5px solid var(--gray-line); }
+  .look:first-of-type { border-top: none; padding-top: 0; }
+  .look-top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+  .look-name { font-size: 20px; font-weight: 300; }
+  .look-num { font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gray-text); }
+  .look-meta { font-size: 13px; font-weight: 300; color: var(--gray-text); letter-spacing: 0.3px; margin-bottom: 18px; }
+  .note { font-size: 13px; font-weight: 300; color: var(--gray-mid); padding-left: 14px; border-left: 0.5px solid var(--gray-line); margin: 0 0 18px; max-width: 720px; }
+  .note strong { font-weight: 500; color: var(--black); }
+
+  .opt-label { font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--black); margin: 22px 0 12px; display: flex; align-items: center; gap: 12px; }
+  .opt-label::after { content: ''; flex: 1; height: 0.5px; background: var(--gray-border); }
+  .opt-label.shared { color: var(--gray-text); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 18px 14px; }
+  .item { min-width: 0; }
+  .item figure { aspect-ratio: 4 / 5; background: var(--tile); border-radius: 4px; overflow: hidden; border: 0.5px solid var(--gray-border); position: relative; }
+  .item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 14px; gap: 8px; }
+  .ph span { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-mid); line-height: 1.5; }
+  .ph em { font-style: normal; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #9a958e; }
+  .ph::before { content: ''; width: 24px; height: 0.5px; background: rgba(0,0,0,0.25); order: 1; }
+  .ph em { order: 2; }
+  .item-name { font-size: 12.5px; font-weight: 400; line-height: 1.45; margin-top: 9px; }
+  .item-src { font-size: 9px; font-weight: 500; letter-spacing: 1.8px; text-transform: uppercase; color: var(--gray-text); margin-top: 3px; }
+  .item-tag { font-size: 11px; font-weight: 300; color: var(--gray-text); font-style: italic; }
+
+  .goto { margin-top: 4px; font-family: inherit; font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; background: transparent; border: 0.5px solid var(--black); border-radius: 4px; color: var(--black); padding: 12px 18px; cursor: pointer; transition: background 0.35s ease, color 0.35s ease; }
+  .goto:hover { background: var(--btn); color: var(--white); }
+
+  /* COMBOS */
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+  .chip { font-family: inherit; font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 8px 14px; border-radius: 999px; border: 0.5px solid var(--gray-line); background: rgba(255,255,255,0.6); color: var(--gray-mid); cursor: pointer; transition: background 0.35s ease, color 0.35s ease; }
+  .chip.active { background: var(--btn); color: var(--white); border-color: var(--btn); }
+  .combo { padding: 28px 0 32px; border-top: 0.5px solid var(--gray-line); }
+  .combo .grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .combo-top { display: flex; align-items: baseline; gap: 14px; margin-bottom: 4px; flex-wrap: wrap; }
+  .combo-num { font-size: 26px; font-weight: 200; line-height: 1; min-width: 36px; }
+  .combo-title { font-size: 15px; font-weight: 300; color: var(--gray-mid); }
+  .flag { font-size: 9px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; border: 0.5px solid var(--gray-line); border-radius: 999px; padding: 3px 10px; color: var(--gray-mid); }
+  .combo-note { font-size: 12.5px; font-weight: 300; color: var(--gray-text); margin: 2px 0 16px 50px; }
+
+  /* PACKING */
+  .progress-wrap { margin-top: 28px; }
+  .progress-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-text); margin-bottom: 10px; }
+  .progress-row strong { color: var(--black); font-weight: 600; }
+  .bar { height: 3px; background: rgba(0,0,0,0.08); border-radius: 2px; overflow: hidden; }
+  .bar div { height: 100%; background: var(--black); width: 0; transition: width 0.35s ease; }
+  .pack-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .pack-group { margin-top: 36px; }
+  .pack-group h3 { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1.5px solid var(--black); margin-bottom: 4px; }
+  .pack-group h3 span { color: var(--gray-text); font-weight: 500; }
+  .pack-item { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 0.5px solid var(--gray-border); cursor: pointer; user-select: none; }
+  .pack-item input { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border: 0.5px solid var(--gray-mid); border-radius: 3px; flex-shrink: 0; display: grid; place-content: center; cursor: pointer; background: var(--white); }
+  .pack-item input:checked { background: var(--btn); border-color: var(--btn); }
+  .pack-item input:checked::after { content: ''; width: 9px; height: 5px; border-left: 1.5px solid #fff; border-bottom: 1.5px solid #fff; transform: rotate(-45deg) translate(1px, -1px); }
+  .pack-thumb { width: 40px; height: 50px; border-radius: 3px; overflow: hidden; background: var(--tile); flex-shrink: 0; border: 0.5px solid var(--gray-border); }
+  .pack-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pack-text { flex: 1; min-width: 0; }
+  .pack-name { font-size: 14px; font-weight: 300; line-height: 1.45; }
+  .pack-sub { font-size: 9px; font-weight: 500; letter-spacing: 1.8px; text-transform: uppercase; color: var(--gray-text); margin-top: 2px; }
+  .pack-item.done .pack-name { text-decoration: line-through; color: var(--gray-text); }
+  .pack-item.done .pack-thumb { opacity: 0.5; }
+
+  footer { padding: 48px; text-align: center; font-size: 11px; letter-spacing: 1px; color: var(--gray-text); }
+
+  @media (max-width: 1024px) {
+    .container { padding: 0 32px; }
+    nav.menu-bar { padding: 22px 32px; }
+    header.hero { min-height: 55vh; }
+  }
+  @media (max-width: 640px) {
+    .container { padding: 0 20px; }
+    nav.menu-bar { padding: 16px 20px; }
+    .nav-logo { margin-right: 20px; }
+    .nav-links { gap: 16px; }
+    nav.menu-bar a:not(.nav-logo) { letter-spacing: 2px; }
+    header.hero { min-height: 45vh; padding-top: 40px; }
+    h2 { font-size: 22px; }
+    .look-name { font-size: 17px; }
+    .tabs button { font-size: 9px; letter-spacing: 1.6px; padding: 13px 6px; }
+    .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 10px; }
+    .combo .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .item-name { font-size: 11.5px; }
+    .item-src { font-size: 8px; letter-spacing: 1.4px; }
+    .ph span { font-size: 8.5px; letter-spacing: 1.4px; }
+    .ph em { font-size: 7.5px; }
+    .combo-note { margin-left: 0; }
+    footer { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-bg" aria-hidden="true">
+  <img src="img/hero.jpg" alt="" />
+  <div class="page-bg-overlay"></div>
+</div>
+
+<nav class="menu-bar" id="main-nav">
+  <a href="#lookbook" class="nav-logo" data-tab="lookbook">FC</a>
+  <div class="nav-links">
+    <a href="#lookbook" data-tab="lookbook">Lookbook</a>
+    <a href="#combinations" data-tab="combinations">Outfit Combinations</a>
+    <a href="#packing" data-tab="packing">Packing List</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg"><img src="img/hero.jpg" alt="Sun City" /></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Sun City Takeover · Shoki</div>
+    <h1>FonCity Lookbook</h1>
+    <div class="hero-divider"></div>
+    <div class="dates">6 to 10 November 2026 · Cascades, Sun City</div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="tabbar" id="tabs-anchor">
+    <div class="tabs" role="tablist">
+      <button data-tab="lookbook" role="tab">Lookbook</button>
+      <button data-tab="combinations" role="tab">Outfit Combinations</button>
+      <button data-tab="packing" role="tab">Packing List</button>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-lookbook"></div>
+  <div class="panel" id="panel-combinations"></div>
+  <div class="panel" id="panel-packing"></div>
+</div>
+
+<footer>FonCity 2026 · Lookbook · Last updated 6 November 2026</footer>
+
+<script>
+/* ---------- ITEMS ---------- */
+var I = {
+  // Dresses
+  'nuvra-white-dress':   { n: 'White bandage mini dress', s: 'Shein · Nuvra', img: 'nuvra-white-dress' },
+  'bodycon':             { n: 'Black open-back bodycon dress', s: 'Wardrobe · Zara' },
+  'emerald-dress':       { n: 'Emerald sequin mini dress', s: 'Wardrobe · H&M' },
+  'black-maxi':          { n: 'Black maxi dress', s: 'Wardrobe' },
+  'animal-maxi':         { n: 'Animal print maxi dress', s: 'Wardrobe' },
+  // Sets
+  'opulessa-purple-set': { n: 'Purple beaded swim set with sheer cover-up', s: 'Shein · Opulessa', img: 'opulessa-purple-set' },
+  'turquoise-set':       { n: 'Turquoise halter top and sequin mini skirt', s: 'Shein · Soleia', img: 'turquoise-set' },
+  'yellow-striped-set':  { n: 'Yellow and white striped short set', s: 'Wardrobe · Shein', img: 'yellow-striped-set' },
+  'brown-knit-set':      { n: 'Brown knit off-shoulder set with swimsuit', s: 'Shein · SHEIN Swim', img: 'brown-knit-set' },
+  'blue-crochet-set':    { n: 'Blue and white striped crochet set', s: 'Wardrobe · Soleia', img: 'blue-crochet-set' },
+  'blue-crochet-top':    { n: 'Blue striped crochet top (from the set)', s: 'Wardrobe · Soleia', img: 'blue-crochet-set', pack: false },
+  // Tops
+  'bodysuit-white':      { n: 'Short sleeve stretch bodysuit, white', s: 'Wardrobe' },
+  'bodysuit-brown':      { n: 'Short sleeve stretch bodysuit, brown', s: 'Wardrobe' },
+  'bodysuit-black':      { n: 'Short sleeve stretch bodysuit, black', s: 'Wardrobe' },
+  'black-tank':          { n: 'Black tank', s: 'Wardrobe' },
+  'yellow-tank':         { n: 'Butter yellow tank', s: 'Wardrobe', img: 'yellow-tank' },
+  'bw-striped-top':      { n: 'Black and white striped oversized top', s: 'Wardrobe · H&M', img: 'bw-striped-top' },
+  'striped-button-down': { n: 'Blue and white striped button-down', s: 'Wardrobe · H&M', img: 'striped-button-down' },
+  'black-sheer-top':     { n: 'Black sheer long sleeve top', s: 'Shein · Musera', img: 'black-sheer-top' },
+  'sequin-top':          { n: 'Black sleeveless sequin crop top', s: 'Wardrobe · H&M' },
+  'manhattan-tee':       { n: 'Black cropped "Manhattan" tee', s: 'Wardrobe', img: 'majita-outfit' },
+  'black-linen-shirt':   { n: 'Black oversized linen shirt', s: 'Shein · Musera', img: 'black-linen-shirt' },
+  // Bottoms
+  'white-linen-shorts':  { n: 'White linen shorts', s: 'Shein · Comfortcana', img: 'comfortcana-linen-shorts' },
+  'black-linen-shorts':  { n: 'Black linen shorts', s: 'Shein · Comfortcana', img: 'comfortcana-linen-shorts' },
+  'beige-linen-shorts':  { n: 'Beige linen shorts', s: 'Wardrobe · H&M', img: 'beige-linen-shorts' },
+  'blue-striped-shorts': { n: 'Blue and white striped shorts', s: 'Wardrobe', img: 'blue-striped-shorts' },
+  'black-linen-trousers':{ n: 'Black linen wide-leg trousers', s: 'Shein · Musera', img: 'black-linen-trousers' },
+  'black-crochet-trousers':{ n: 'Black crochet wide-leg trousers', s: 'Shein · Musera', img: 'black-crochet-trousers' },
+  'white-mini-skirt':    { n: 'Loose white tiered mini skirt', s: 'Wardrobe', img: 'white-mini-skirt' },
+  'yellow-skort':        { n: 'Butter yellow skort', s: 'Wardrobe · Mr Price', img: 'yellow-skort' },
+  'romwe-fringe-skirt':  { n: 'Black fringe wrap skirt with gold detail', s: 'Shein · ROMWE', img: 'romwe-fringe-skirt' },
+  'black-skirt':         { n: 'Black skirt', s: 'Wardrobe · Mr Price' },
+  'bell-bottoms':        { n: 'Dark blue bell-bottom jeans', s: 'Wardrobe · Mr Price' },
+  'mom-jeans':           { n: 'Mom jeans', s: 'Wardrobe · H&M', img: 'mom-jeans' },
+  'black-denim-shorts':  { n: 'Black frayed denim shorts', s: 'Wardrobe', img: 'majita-outfit' },
+  // Swim
+  'oceva-black-bikini':  { n: 'Black bikini', s: 'Shein · Oceva', img: 'oceva-black-bikini' },
+  'white-bikini':        { n: 'White bikini', s: 'Shein · SHEIN Swim', img: 'white-bikini' },
+  'gold-bikini-top':     { n: 'Gold bikini top', s: 'Shein · Aloruh', img: 'gold-bikini-top' },
+  'brown-bikini':        { n: 'Brown bikini (bottom still to find)', s: 'Wardrobe · Aloruh', img: 'brown-bikini' },
+  'brown-crochet-coverup':{ n: 'Brown crochet tie-front cover-up', s: 'Shein · Musera', img: 'brown-crochet-coverup' },
+  'black-crochet-coverup':{ n: 'Black crochet tie-front cover-up (backup)', s: 'Shein · Musera', img: 'black-crochet-coverup' },
+  // Shoes
+  'zara-sandals':        { n: 'Brown sandals', s: 'Wardrobe · Zara' },
+  'apricot-flats':       { n: 'Apricot crochet tie-ankle flats', s: 'Shein · Musera', img: 'apricot-flats' },
+  'black-mesh-flats':    { n: 'Black mesh ballet flats', s: 'Shein · ADAMUMU', img: 'black-mesh-flats' },
+  // Bags
+  'woven-bag':           { n: 'Woven half-moon bag', s: 'Wardrobe · Shein', img: 'woven-bag' },
+  'silver-beaded-bag':   { n: 'Silver beaded shoulder bag', s: 'Shein · Scirocco', img: 'silver-beaded-bag' },
+  'zara-city-bag':       { n: 'City bag, black', s: 'Wardrobe · Zara', img: 'zara-city-bag' },
+  'brown-shoulder-bag':  { n: 'Brown shoulder bag', s: 'Wardrobe', img: 'brown-shoulder-bag' },
+  'mrp-bag':             { n: 'Brown and beige bag', s: 'Wardrobe · Mr Price', img: 'mrp-bag' },
+  // Jewellery and accessories
+  'gold-jewellery':      { n: 'Gold earrings, bangles and bracelets', s: 'Wardrobe' },
+  'silver-bangles':      { n: 'Silver chunky bangles', s: 'Shein · KUZ', img: 'silver-bangles' },
+  'silver-ear-cuffs':    { n: 'Silver ear cuffs', s: 'Shein · YI ME', img: 'silver-ear-cuffs' },
+  'silver-studs':        { n: 'Silver asymmetric studs', s: 'Shein · FHGK', img: 'silver-studs' },
+  'tortoiseshell-bangles':{ n: 'Tortoiseshell bangles', s: 'Shein · Cumai', img: 'tortoiseshell-bangles' },
+  'corset-belt':         { n: 'Brown corset belt', s: 'Shein · Sandy abc', img: 'corset-belt' },
+  'black-crochet-headscarf':{ n: 'Black crochet lace headscarf', s: 'Shein', img: 'black-crochet-headscarf' },
+  'coffee-headscarf':    { n: 'Coffee crochet headscarf', s: 'Shein · SugarPOP', img: 'coffee-headscarf' },
+  'gold-net-headscarf':  { n: 'Gold rhinestone net headscarf', s: 'Shein', img: 'gold-net-headscarf' },
+  'black-bucket-hat':    { n: 'Black knit bucket hat', s: 'Wardrobe', img: 'black-bucket-hat' },
+  'straw-hat':           { n: 'Straw hat with fringed brim', s: 'Wardrobe · extra', img: 'straw-hat' },
+  'galxboy-hat':         { n: 'Cream GALXBOY hat', s: 'Wardrobe · extra' },
+  // Underwear and sleep
+  'nude-seamless':       { n: 'Nude seamless underwear', s: 'Underwear' },
+  'everyday-underwear':  { n: 'Everyday underwear for 4 nights', s: 'Underwear' },
+  'sleepwear':           { n: '3 sleepwear sets, including the lace cami', s: 'Sleep', img: 'lace-cami' },
+  'lingerie-set':        { n: 'Black lace lingerie set', s: 'Shein · Charlaine', img: 'lingerie-set' }
+};
+
+/* ---------- LOOKS ---------- */
+var DAYS = [
+  { day: 'Friday 6 November', weather: 'High 36° · Low 20°', looks: [
+    { num: 'Look 1', name: 'Road trip', meta: 'Drive to Sun City',
+      options: [{ items: ['bodycon', 'apricot-flats', 'mrp-bag'] }],
+      note: 'Minimal jewellery for the drive.' },
+    { num: 'Look 2', name: 'Day club', meta: 'GALXBOY Day Club · Sun City Hotel · until midnight',
+      note: 'Do accreditation with your roommate at the Warriors Conference Room first. Check-in closes at 21:30, and the ticket scans only once.',
+      options: [
+        { label: 'Option 1', items: ['opulessa-purple-set', 'tortoiseshell-bangles'] },
+        { label: 'Option 2', items: ['turquoise-set', ['white-bikini', 'Underneath']] },
+        { label: 'Option 3', items: ['yellow-striped-set', ['white-bikini', 'Underneath']] },
+        { label: 'All options', shared: true, items: ['zara-sandals', 'woven-bag', 'gold-jewellery'] }
+      ] }
+  ] },
+  { day: 'Saturday 7 November', weather: 'High 33° · Low 18°', looks: [
+    { num: 'Look 3', name: 'Breakfast', meta: 'Cascades · 07:30 to 11:30', breakfast: true },
+    { num: 'Look 4', name: 'Lost at the Valley', meta: 'Valley of Waves · 11:00 to 17:00',
+      note: 'Keep the woven bag on a lounger, away from the water, and your phone in a sealable bag.',
+      options: [
+        { label: 'Option 1', items: ['brown-crochet-coverup', 'brown-bikini', 'corset-belt'] },
+        { label: 'Option 2', items: ['brown-knit-set'] },
+        { label: 'Both options', shared: true, items: ['coffee-headscarf', 'woven-bag', 'zara-sandals'] }
+      ] },
+    { num: 'Look 5', name: 'All White Party', meta: 'The Portal Dome · 18:00 to 02:00 · strictly white and/or silver',
+      options: [{ items: ['nuvra-white-dress', 'silver-bangles', 'silver-ear-cuffs', 'silver-studs', 'silver-beaded-bag', 'zara-sandals', ['nude-seamless', 'Underneath']] }] }
+  ] },
+  { day: 'Sunday 8 November', weather: 'High 33° · Low 16° · 35% chance of rain', looks: [
+    { num: 'Look 6', name: 'Breakfast', meta: 'Cascades · 07:30 to 11:30', breakfast: true },
+    { num: 'Look 7', name: 'Day club', meta: 'GALXBOY or Hennessy Day Club · 11:00 to 18:00',
+      options: [
+        { label: 'Option 1', items: ['oceva-black-bikini', 'black-sheer-top', 'romwe-fringe-skirt', 'woven-bag'] },
+        { label: 'Option 2', items: ['oceva-black-bikini', 'black-crochet-trousers', 'black-linen-shirt', 'zara-city-bag'] },
+        { label: 'Both options', shared: true, items: ['black-crochet-headscarf', 'zara-sandals', 'gold-jewellery'] }
+      ] },
+    { num: 'Look 8', name: 'Disco 3000', meta: 'Fon City · Sun Park · 19:00 to 02:00',
+      note: 'Pack the quick-change kit for the gap after the day club. With Option 1, bring the black linen shirt or striped button-down as a layer for late night.',
+      options: [
+        { label: 'Option 1', items: ['bell-bottoms', 'gold-bikini-top', 'gold-jewellery', 'brown-shoulder-bag'] },
+        { label: 'Option 2', items: ['emerald-dress', ['gold-jewellery', 'Earrings and a few bangles'], 'brown-shoulder-bag'] },
+        { label: 'Option 3', items: ['sequin-top', 'black-skirt', 'gold-net-headscarf', 'gold-jewellery', 'zara-city-bag'] },
+        { label: 'All options', shared: true, items: ['zara-sandals'] }
+      ] }
+  ] },
+  { day: 'Monday 9 November', weather: 'High 28° · Low 16°', looks: [
+    { num: 'Look 9', name: 'Breakfast', meta: 'Cascades · 07:30 to 11:30', breakfast: true },
+    { num: 'Look 10', name: 'Majita Monday', meta: 'The Shebeen · 15:00 to 22:00',
+      options: [{ items: ['black-denim-shorts', 'manhattan-tee', 'black-bucket-hat', 'zara-city-bag', 'black-mesh-flats'] }] }
+  ] },
+  { day: 'Tuesday 10 November', weather: 'High 32° · no rain', looks: [
+    { num: 'Look 11', name: 'Check-out and travel home', meta: 'Extension night · drive home',
+      options: [{ items: ['black-linen-trousers', 'bw-striped-top', 'black-mesh-flats', 'zara-city-bag'] }] }
+  ] }
+];
+
+/* ---------- COMBINATIONS ---------- */
+var COMBOS = [
+  { items: ['white-linen-shorts', 'bodysuit-white', ['striped-button-down', 'Worn open'], 'apricot-flats', 'woven-bag'] },
+  { items: ['animal-maxi', 'zara-sandals', 'brown-shoulder-bag'] },
+  { items: ['white-mini-skirt', 'bodysuit-brown', 'apricot-flats', 'mrp-bag'] },
+  { items: ['black-maxi', 'gold-jewellery', 'zara-sandals', 'zara-city-bag'] },
+  { items: ['black-linen-shorts', 'bodysuit-white', 'gold-jewellery', 'black-mesh-flats', 'zara-city-bag'] },
+  { items: ['black-linen-trousers', 'black-tank', 'zara-sandals', 'zara-city-bag'] },
+  { items: ['white-linen-shorts', 'yellow-tank', 'coffee-headscarf', 'apricot-flats', 'woven-bag'] },
+  { items: ['white-mini-skirt', 'black-tank', ['striped-button-down', 'Worn open'], 'black-mesh-flats', 'zara-city-bag'] },
+  { items: ['beige-linen-shorts', 'bodysuit-black', 'gold-jewellery', 'black-mesh-flats', 'zara-city-bag'] },
+  { items: ['yellow-skort', 'bodysuit-white', 'apricot-flats', 'woven-bag'] },
+  { items: ['blue-crochet-top', 'white-linen-shorts', 'apricot-flats', 'woven-bag'] },
+  { items: ['blue-crochet-top', 'white-mini-skirt', 'zara-sandals', 'woven-bag'] },
+  { items: ['mom-jeans', 'bodysuit-white', 'apricot-flats', 'woven-bag'], note: 'Swap in any of the bodysuits or the black tank.' },
+  { items: ['blue-crochet-set', 'zara-sandals', 'woven-bag'], note: 'Top and shorts worn together.' },
+  { items: ['blue-striped-shorts', 'striped-button-down', 'apricot-flats', 'woven-bag'], note: 'Shorts and button-down worn as a set.', flag: 'To confirm' }
+];
+
+/* ---------- PACKING ---------- */
+var PACK = [
+  { g: 'Dresses', items: ['nuvra-white-dress', 'bodycon', 'emerald-dress', 'black-maxi', 'animal-maxi'] },
+  { g: 'Sets', items: ['opulessa-purple-set', 'turquoise-set', 'yellow-striped-set', 'brown-knit-set', 'blue-crochet-set'] },
+  { g: 'Tops', items: ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank', 'bw-striped-top', 'striped-button-down', 'black-sheer-top', 'sequin-top', 'manhattan-tee', 'black-linen-shirt'] },
+  { g: 'Bottoms', items: ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'blue-striped-shorts', 'black-linen-trousers', 'black-crochet-trousers', 'white-mini-skirt', 'yellow-skort', 'romwe-fringe-skirt', 'black-skirt', 'bell-bottoms', 'mom-jeans', 'black-denim-shorts'] },
+  { g: 'Swim and cover-ups', items: ['oceva-black-bikini', 'white-bikini', 'gold-bikini-top', 'brown-bikini', 'brown-crochet-coverup', 'black-crochet-coverup'] },
+  { g: 'Shoes', items: ['zara-sandals', 'apricot-flats', 'black-mesh-flats'] },
+  { g: 'Bags', items: ['woven-bag', 'silver-beaded-bag', 'zara-city-bag', 'brown-shoulder-bag', 'mrp-bag'] },
+  { g: 'Jewellery and accessories', items: ['gold-jewellery', 'silver-bangles', 'silver-ear-cuffs', 'silver-studs', 'tortoiseshell-bangles', 'corset-belt'] },
+  { g: 'Headscarves and hats', items: ['black-crochet-headscarf', 'coffee-headscarf', 'gold-net-headscarf', 'black-bucket-hat', 'straw-hat', 'galxboy-hat'] },
+  { g: 'Underwear and sleep', items: ['nude-seamless', 'everyday-underwear', 'sleepwear', 'lingerie-set'] },
+  { g: 'Essentials', items: [
+    ['x-id', 'ID (needed at the gate and at check-in)'],
+    ['x-howler', 'Howler ticket confirmation and hotel booking, saved offline'],
+    ['x-card', 'Bank card and some cash'],
+    ['x-phone', 'Phone, charger and power bank'],
+    ['x-ziplock', 'Sealable bag for your phone at the Valley'],
+    ['x-umbrella', 'Small umbrella for Sunday'] ] },
+  { g: 'Sun care', items: [
+    ['x-spf', 'SPF 50'], ['x-aftersun', 'After-sun'], ['x-lip', 'SPF lip balm'], ['x-sunnies', 'Sunglasses'] ] },
+  { g: 'Beauty and toiletries', items: [
+    ['x-skincare', 'Skincare'],
+    ['x-makeup', 'Makeup'],
+    ['x-brushes', 'Makeup brush set', 'brush-set', 'Shein · XINYUAN-MEI'],
+    ['x-setting', 'Setting spray'],
+    ['x-cosmetic', 'Black mesh cosmetic bag', 'mesh-cosmetic-bag', 'Shein · nacai'],
+    ['x-hair', 'Hair products and bonnet'],
+    ['x-curlers', 'No-heat curlers', 'curlers', 'Shein · YWxingya'],
+    ['x-deo', 'Deodorant and perfume'],
+    ['x-meds', 'Personal meds'],
+    ['x-quick', 'Quick-change kit: face wipes, dry shampoo, mini makeup'] ] }
+];
+
+/* ---------- RENDER ---------- */
+function esc(s) { return String(s).replace(/[&<>"]/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+function tile(ref) {
+  var id = Array.isArray(ref) ? ref[0] : ref;
+  var tag = Array.isArray(ref) ? ref[1] : '';
+  var it = I[id];
+  var fig = it.img
+    ? '<img src="img/' + it.img + '.jpg" alt="' + esc(it.n) + '" loading="lazy" />'
+    : '<div class="ph"><span>' + esc(it.n) + '</span><em>Photo to come</em></div>';
+  return '<div class="item"><figure>' + fig + '</figure>' +
+    '<div class="item-name">' + esc(it.n) + (tag ? ' <span class="item-tag">· ' + esc(tag) + '</span>' : '') + '</div>' +
+    '<div class="item-src">' + esc(it.s) + '</div></div>';
+}
+
+function renderLookbook() {
+  var h = '<section><div class="section-label">The Looks</div><h2>Eleven looks, five days</h2>' +
+    '<p class="lede">Every confirmed look by day and event, with options where there is more than one. Breakfast looks come from the <strong>Outfit Combinations</strong> tab. Forecast as of Friday morning.</p></section>';
+  DAYS.forEach(function(d) {
+    h += '<section><div class="day-head"><h2>' + d.day + '</h2><div class="weather">' + d.weather + '</div></div>';
+    d.looks.forEach(function(l) {
+      h += '<div class="look"><div class="look-top"><div class="look-name">' + l.name + '</div><div class="look-num">' + l.num + '</div></div>' +
+        '<div class="look-meta">' + esc(l.meta) + '</div>';
+      if (l.breakfast) {
+        h += '<div class="note">Pick from the outfit combinations on the morning.</div>' +
+          '<button class="goto" data-goto="combinations">See outfit combinations</button>';
+      } else {
+        if (l.note) h += '<div class="note">' + esc(l.note) + '</div>';
+        l.options.forEach(function(o) {
+          if (o.label) h += '<div class="opt-label' + (o.shared ? ' shared' : '') + '">' + o.label + '</div>';
+          h += '<div class="grid">' + o.items.map(tile).join('') + '</div>';
+        });
+      }
+      h += '</div>';
+    });
+    h += '</section>';
+  });
+  document.getElementById('panel-lookbook').innerHTML = h;
+}
+
+function comboHas(c, ids) { return c.items.some(function(r) { var id = Array.isArray(r) ? r[0] : r; return ids.indexOf(id) > -1; }); }
+var FILTERS = [
+  { k: 'all', t: 'All' },
+  { k: 'shorts', t: 'Shorts', ids: ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'blue-striped-shorts', 'blue-crochet-set'] },
+  { k: 'skirts', t: 'Skirts and skorts', ids: ['white-mini-skirt', 'yellow-skort'] },
+  { k: 'long', t: 'Trousers and jeans', ids: ['black-linen-trousers', 'mom-jeans'] },
+  { k: 'dresses', t: 'Dresses', ids: ['animal-maxi', 'black-maxi'] }
+];
+var activeFilter = 'all';
+
+function renderCombos() {
+  var h = '<section><div class="section-label">Outfit Combinations</div><h2>Breakfast and daytime</h2>' +
+    '<p class="lede">Fifteen combinations to pick from for breakfast on Saturday, Sunday and Monday, and Tuesday if the extension includes it. Each one is listed with its shoes and bag.</p>' +
+    '<div class="filters">' + FILTERS.map(function(f) {
+      return '<button class="chip' + (f.k === activeFilter ? ' active' : '') + '" data-filter="' + f.k + '">' + f.t + '</button>';
+    }).join('') + '</div></section><section style="padding-top:0">';
+  var f = FILTERS.filter(function(x) { return x.k === activeFilter; })[0];
+  COMBOS.forEach(function(c, i) {
+    if (f.ids && !comboHas(c, f.ids)) return;
+    var first = Array.isArray(c.items[0]) ? c.items[0][0] : c.items[0];
+    var second = Array.isArray(c.items[1]) ? c.items[1][0] : c.items[1];
+    var title = I[first].n + ', ' + I[second].n.charAt(0).toLowerCase() + I[second].n.slice(1);
+    h += '<div class="combo"><div class="combo-top"><div class="combo-num">' + String(i + 1).padStart(2, '0') + '</div>' +
+      '<div class="combo-title">' + esc(title) + '</div>' + (c.flag ? '<span class="flag">' + c.flag + '</span>' : '') + '</div>' +
+      (c.note ? '<div class="combo-note">' + esc(c.note) + '</div>' : '<div style="height:14px"></div>') +
+      '<div class="grid">' + c.items.map(tile).join('') + '</div></div>';
+  });
+  h += '</section>';
+  document.getElementById('panel-combinations').innerHTML = h;
+}
+
+var KEY = 'foncity-lookbook-packed-v1';
+function loadPacked() { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } }
+function savePacked(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) {} }
+var packed = loadPacked();
+
+function packRows() {
+  var rows = [];
+  PACK.forEach(function(g) {
+    var list = g.items.map(function(r) {
+      if (Array.isArray(r)) return { id: r[0], n: r[1], img: r[2], s: r[3] || g.g };
+      var it = I[r]; return { id: r, n: it.n, img: it.img, s: it.s };
+    });
+    rows.push({ g: g.g, list: list });
+  });
+  return rows;
+}
+
+function renderPacking() {
+  var groups = packRows();
+  var total = 0, done = 0;
+  groups.forEach(function(g) { g.list.forEach(function(r) { total++; if (packed[r.id]) done++; }); });
+  var h = '<section><div class="section-label">Packing List</div><h2>Everything going in the bag</h2>' +
+    '<p class="lede">Every item from the looks and combinations, listed once, plus essentials. Ticks are saved on this device.</p>' +
+    '<div class="progress-wrap"><div class="progress-row"><span>Packed</span><span><strong id="pk-done">' + done + '</strong> of ' + total + '</span></div>' +
+    '<div class="bar"><div id="pk-bar" style="width:' + (total ? done / total * 100 : 0) + '%"></div></div>' +
+    '<div class="pack-actions"><button class="goto" id="pk-reset">Clear all ticks</button></div></div></section><section style="padding-top:0">';
+  groups.forEach(function(g) {
+    var gd = g.list.filter(function(r) { return packed[r.id]; }).length;
+    h += '<div class="pack-group"><h3>' + g.g + '<span>' + gd + ' / ' + g.list.length + '</span></h3>';
+    g.list.forEach(function(r) {
+      h += '<label class="pack-item' + (packed[r.id] ? ' done' : '') + '">' +
+        '<input type="checkbox" data-id="' + r.id + '"' + (packed[r.id] ? ' checked' : '') + ' />' +
+        '<div class="pack-thumb">' + (r.img ? '<img src="img/' + r.img + '.jpg" alt="" loading="lazy" />' : '') + '</div>' +
+        '<div class="pack-text"><div class="pack-name">' + esc(r.n) + '</div><div class="pack-sub">' + esc(r.s) + '</div></div></label>';
+    });
+    h += '</div>';
+  });
+  h += '</section>';
+  document.getElementById('panel-packing').innerHTML = h;
+}
+
+/* ---------- TABS ---------- */
+var TABS = ['lookbook', 'combinations', 'packing'];
+function show(tab, scroll) {
+  if (TABS.indexOf(tab) < 0) tab = 'lookbook';
+  TABS.forEach(function(t) { document.getElementById('panel-' + t).classList.toggle('active', t === tab); });
+  document.querySelectorAll('[data-tab]').forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-tab') === tab && !b.classList.contains('nav-logo')); });
+  try { history.replaceState(null, '', '#' + tab); } catch (e) {}
+  if (scroll) {
+    var y = document.getElementById('tabs-anchor').getBoundingClientRect().top + window.scrollY - document.getElementById('main-nav').offsetHeight - 8;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  }
+}
+
+document.addEventListener('click', function(e) {
+  var t = e.target.closest('[data-tab]');
+  if (t) { e.preventDefault(); show(t.getAttribute('data-tab'), true); return; }
+  var g = e.target.closest('[data-goto]');
+  if (g) { show(g.getAttribute('data-goto'), true); return; }
+  var f = e.target.closest('[data-filter]');
+  if (f) { activeFilter = f.getAttribute('data-filter'); renderCombos(); return; }
+  if (e.target.id === 'pk-reset') { packed = {}; savePacked(packed); renderPacking(); }
+});
+document.addEventListener('change', function(e) {
+  var id = e.target.getAttribute && e.target.getAttribute('data-id');
+  if (!id) return;
+  if (e.target.checked) packed[id] = 1; else delete packed[id];
+  savePacked(packed); renderPacking();
+});
+
+renderLookbook(); renderCombos(); renderPacking();
+show((location.hash || '#lookbook').slice(1), false);
+window.addEventListener('hashchange', function() { show(location.hash.slice(1), false); });
+
+/* ---------- NAV OVER HERO (matches FonCity) ---------- */
+(function() {
+  var nav = document.getElementById('main-nav');
+  var hero = document.querySelector('header.hero');
+  var heroSrc = document.querySelector('.hero-bg img').src;
+  function onScroll() {
+    if (window.scrollY > hero.offsetHeight - 80) {
+      if (!nav.classList.contains('scrolled')) {
+        nav.classList.add('scrolled');
+        nav.style.backgroundImage = 'linear-gradient(rgba(10,10,10,0.38), rgba(10,10,10,0.38)), url(' + heroSrc + ')';
+      }
+    } else if (nav.classList.contains('scrolled')) {
+      nav.classList.remove('scrolled');
+      nav.style.backgroundImage = '';
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  // keep hero content clear of the nav, measured rather than guessed
+  function fitHero() { document.querySelector('.hero-content').style.paddingTop = (nav.offsetHeight + 24) + 'px'; }
+  window.addEventListener('resize', fitHero);
+  fitHero();
+})();
+</script>
+</body>
+</html>
