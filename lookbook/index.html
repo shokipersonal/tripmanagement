@@ -274,7 +274,6 @@ var I = {
   'white-linen-shorts':  { n: 'White linen shorts', s: 'Shein · Comfortcana', img: 'comfortcana-linen-shorts' },
   'black-linen-shorts':  { n: 'Black linen shorts', s: 'Shein · Comfortcana', img: 'comfortcana-linen-shorts' },
   'beige-linen-shorts':  { n: 'Beige linen shorts', s: 'Wardrobe · H&M', img: 'beige-linen-shorts' },
-  'blue-striped-shorts': { n: 'Blue and white striped shorts', s: 'Wardrobe', img: 'blue-striped-shorts' },
   'black-linen-trousers':{ n: 'Black linen wide-leg trousers', s: 'Shein · Musera', img: 'black-linen-trousers' },
   'black-crochet-trousers':{ n: 'Black crochet wide-leg trousers', s: 'Shein · Musera', img: 'black-crochet-trousers' },
   'white-mini-skirt':    { n: 'Loose white tiered mini skirt', s: 'Wardrobe', img: 'white-mini-skirt' },
@@ -317,7 +316,9 @@ var I = {
   // Underwear and sleep
   'nude-seamless':       { n: 'Nude seamless underwear', s: 'Underwear' },
   'everyday-underwear':  { n: 'Everyday underwear for 4 nights', s: 'Underwear' },
-  'sleepwear':           { n: '3 sleepwear sets, including the lace cami', s: 'Sleep', img: 'lace-cami' },
+  'sleep-satin':         { n: 'Satin sleep set', s: 'Wardrobe' },
+  'sleep-cotton':        { n: 'Cotton sleep set', s: 'Wardrobe' },
+  'sleep-lace-cami':     { n: 'Black lace cami set', s: 'Shein · Musera', img: 'lace-cami' },
   'lingerie-set':        { n: 'Black lace lingerie set', s: 'Shein · Charlaine', img: 'lingerie-set' }
 };
 
@@ -391,8 +392,7 @@ var COMBOS = [
   { items: ['blue-crochet-top', 'white-linen-shorts', 'apricot-flats', 'woven-bag'] },
   { items: ['blue-crochet-top', 'white-mini-skirt', 'zara-sandals', 'woven-bag'] },
   { items: ['mom-jeans', 'bodysuit-white', 'apricot-flats', 'woven-bag'], note: 'Swap in any of the bodysuits or the black tank.' },
-  { items: ['blue-crochet-set', 'zara-sandals', 'woven-bag'], note: 'Top and shorts worn together.' },
-  { items: ['blue-striped-shorts', 'striped-button-down', 'apricot-flats', 'woven-bag'], note: 'Shorts and button-down worn as a set.', flag: 'To confirm' }
+  { items: ['blue-crochet-set', 'zara-sandals', 'woven-bag'], note: 'Top and shorts worn together.' }
 ];
 
 /* ---------- PACKING ---------- */
@@ -400,13 +400,13 @@ var PACK = [
   { g: 'Dresses', items: ['nuvra-white-dress', 'bodycon', 'emerald-dress', 'black-maxi', 'animal-maxi'] },
   { g: 'Sets', items: ['opulessa-purple-set', 'turquoise-set', 'yellow-striped-set', 'brown-knit-set', 'blue-crochet-set'] },
   { g: 'Tops', items: ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank', 'bw-striped-top', 'striped-button-down', 'black-sheer-top', 'sequin-top', 'manhattan-tee', 'black-linen-shirt'] },
-  { g: 'Bottoms', items: ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'blue-striped-shorts', 'black-linen-trousers', 'black-crochet-trousers', 'white-mini-skirt', 'yellow-skort', 'romwe-fringe-skirt', 'black-skirt', 'bell-bottoms', 'mom-jeans', 'black-denim-shorts'] },
+  { g: 'Bottoms', items: ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'black-linen-trousers', 'black-crochet-trousers', 'white-mini-skirt', 'yellow-skort', 'romwe-fringe-skirt', 'black-skirt', 'bell-bottoms', 'mom-jeans', 'black-denim-shorts'] },
   { g: 'Swim and cover-ups', items: ['oceva-black-bikini', 'white-bikini', 'gold-bikini-top', 'brown-bikini', 'brown-crochet-coverup', 'black-crochet-coverup'] },
   { g: 'Shoes', items: ['zara-sandals', 'apricot-flats', 'black-mesh-flats'] },
   { g: 'Bags', items: ['woven-bag', 'silver-beaded-bag', 'zara-city-bag', 'brown-shoulder-bag', 'mrp-bag'] },
   { g: 'Jewellery and accessories', items: ['gold-jewellery', 'silver-bangles', 'silver-ear-cuffs', 'silver-studs', 'tortoiseshell-bangles', 'corset-belt'] },
   { g: 'Headscarves and hats', items: ['black-crochet-headscarf', 'coffee-headscarf', 'gold-net-headscarf', 'black-bucket-hat', 'straw-hat', 'galxboy-hat'] },
-  { g: 'Underwear and sleep', items: ['nude-seamless', 'everyday-underwear', 'sleepwear', 'lingerie-set'] },
+  { g: 'Underwear and sleep', items: ['nude-seamless', 'everyday-underwear', 'sleep-satin', 'sleep-cotton', 'sleep-lace-cami', 'lingerie-set'] },
   { g: 'Essentials', items: [
     ['x-id', 'ID (needed at the gate and at check-in)'],
     ['x-howler', 'Howler ticket confirmation and hotel booking, saved offline'],
@@ -472,7 +472,7 @@ function renderLookbook() {
 function comboHas(c, ids) { return c.items.some(function(r) { var id = Array.isArray(r) ? r[0] : r; return ids.indexOf(id) > -1; }); }
 var FILTERS = [
   { k: 'all', t: 'All' },
-  { k: 'shorts', t: 'Shorts', ids: ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'blue-striped-shorts', 'blue-crochet-set'] },
+  { k: 'shorts', t: 'Shorts', ids: ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'blue-crochet-set'] },
   { k: 'skirts', t: 'Skirts and skorts', ids: ['white-mini-skirt', 'yellow-skort'] },
   { k: 'long', t: 'Trousers and jeans', ids: ['black-linen-trousers', 'mom-jeans'] },
   { k: 'dresses', t: 'Dresses', ids: ['animal-maxi', 'black-maxi'] }
@@ -481,7 +481,7 @@ var activeFilter = 'all';
 
 function renderCombos() {
   var h = '<section><div class="section-label">Outfit Combinations</div><h2>Breakfast and daytime</h2>' +
-    '<p class="lede">Fifteen combinations to pick from for breakfast on Saturday, Sunday and Monday, and Tuesday if the extension includes it. Each one is listed with its shoes and bag.</p>' +
+    '<p class="lede">Fourteen combinations to pick from for breakfast on Saturday, Sunday and Monday, and Tuesday if the extension includes it. Each one is listed with its shoes and bag.</p>' +
     '<div class="filters">' + FILTERS.map(function(f) {
       return '<button class="chip' + (f.k === activeFilter ? ' active' : '') + '" data-filter="' + f.k + '">' + f.t + '</button>';
     }).join('') + '</div></section><section style="padding-top:0">';
