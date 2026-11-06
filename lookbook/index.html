@@ -162,8 +162,15 @@
   .out-title { font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 4px; }
   .pack-item.friend { background: #ebe6de; margin: 0 -12px; padding: 10px 12px; border-radius: 4px; border-bottom-color: #fbfaf8; cursor: default; }
   .pack-item.friend input { opacity: 0.55; cursor: default; }
+  .pack-group h3, .pack-sep { cursor: pointer; user-select: none; }
+  .pack-group h3 { justify-content: flex-start; gap: 10px; }
+  .pack-group h3 span:last-child { margin-left: auto; }
+  .caret { display: inline-block; width: 12px; font-size: 10px; color: var(--gray-text); font-weight: 400; }
+  .collapsed > .pack-body { display: none; }
+  .pack-group.complete h3 { color: var(--gray-text); border-bottom-color: var(--gray-line); }
+  .pack-sep em { font-style: normal; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-text); margin-left: 10px; vertical-align: middle; }
   .pack-sep { font-size: 26px; font-weight: 200; margin-top: 56px; padding-bottom: 4px; }
-  .pack-sep:first-child { margin-top: 8px; }
+  .pack-section:first-child .pack-sep { margin-top: 8px; }
   .pack-group h3 { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1.5px solid var(--black); margin-bottom: 4px; }
   .pack-group h3 span { color: var(--gray-text); font-weight: 500; }
   .pack-item { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 0.5px solid var(--gray-border); cursor: pointer; user-select: none; }
@@ -629,6 +636,8 @@ function packRows() {
 
 function isFriend(id) { return I[id] && I[id].friend !== undefined; }
 function isDone(id) { return !!packed[id] || isFriend(id); }
+var userOpen = {};
+function isOpen(key, complete) { var u = userOpen[key]; if (u && u.complete === complete) return u.open; return !complete; }
 function renderPacking() {
   var groups = packRows();
   var total = 0, done = 0;
@@ -645,18 +654,27 @@ function renderPacking() {
       if (!outs.length) return '';
       return '<div class="out-box"><div class="out-title">Outstanding</div>' + outs.map(function(k) { return '<div>' + esc(I[k].n) + ' · ' + esc(I[k].out) + '</div>'; }).join('') + '</div>';
     })() + '</section><section style="padding-top:0">';
-  groups.forEach(function(g) {
-    if (g.sep) { h += '<div class="pack-sep">' + g.sep + '</div>'; return; }
-    var gd = g.list.filter(function(r) { return isDone(r.id); }).length;
-    h += '<div class="pack-group"><h3>' + g.g + '<span>' + gd + ' / ' + g.list.length + '</span></h3>';
-    g.list.forEach(function(r) {
-      var fr = isFriend(r.id);
-      h += '<label class="pack-item' + (fr ? ' friend' : (packed[r.id] ? ' done' : '')) + '">' +
-        '<input type="checkbox" data-id="' + r.id + '"' + (isDone(r.id) ? ' checked' : '') + (fr ? ' disabled' : '') + ' />' +
-        '<div class="pack-thumb">' + (r.img ? '<img src="img/' + r.img + '.jpg" alt="" loading="lazy" />' : '') + '</div>' +
-        '<div class="pack-text"><div class="pack-name">' + esc(r.n) + '</div><div class="pack-sub">' + esc(r.s) + '</div>' + (r.out && !packed[r.id] ? '<div class="pack-out">Outstanding · ' + esc(r.out) + '</div>' : '') + (fr ? '<div class="pack-out">With your friend' + (r.friend ? ' · ' + esc(r.friend) : '') + '</div>' : '') + '</div></label>';
+  var secs = [], cur = null;
+  groups.forEach(function(g) { if (g.sep) { cur = { sep: g.sep, groups: [] }; secs.push(cur); } else cur.groups.push(g); });
+  function itemHtml(r) {
+    var fr = isFriend(r.id);
+    return '<label class="pack-item' + (fr ? ' friend' : (packed[r.id] ? ' done' : '')) + '">' +
+      '<input type="checkbox" data-id="' + r.id + '"' + (isDone(r.id) ? ' checked' : '') + (fr ? ' disabled' : '') + ' />' +
+      '<div class="pack-thumb">' + (r.img ? '<img src="img/' + r.img + '.jpg" alt="" loading="lazy" />' : '') + '</div>' +
+      '<div class="pack-text"><div class="pack-name">' + esc(r.n) + '</div><div class="pack-sub">' + esc(r.s) + '</div>' + (r.out && !packed[r.id] ? '<div class="pack-out">Outstanding · ' + esc(r.out) + '</div>' : '') + (fr ? '<div class="pack-out">With your friend' + (r.friend ? ' · ' + esc(r.friend) : '') + '</div>' : '') + '</div></label>';
+  }
+  secs.forEach(function(sec) {
+    var secDone = true, secHtml = '';
+    sec.groups.forEach(function(g) {
+      var gd = g.list.filter(function(r) { return isDone(r.id); }).length;
+      var complete = gd === g.list.length;
+      if (!complete) secDone = false;
+      var key = sec.sep + '|' + g.g, open = isOpen(key, complete);
+      secHtml += '<div class="pack-group' + (open ? '' : ' collapsed') + (complete ? ' complete' : '') + '"><h3 data-toggle="' + esc(key) + '" data-complete="' + (complete ? 1 : 0) + '"><span class="caret">' + (open ? '&#9662;' : '&#9656;') + '</span>' + g.g + '<span>' + gd + ' / ' + g.list.length + '</span></h3>' +
+        '<div class="pack-body">' + g.list.map(itemHtml).join('') + '</div></div>';
     });
-    h += '</div>';
+    var skey = 'SEC|' + sec.sep, sopen = isOpen(skey, secDone);
+    h += '<div class="pack-section' + (sopen ? '' : ' collapsed') + '"><div class="pack-sep" data-toggle="' + esc(skey) + '" data-complete="' + (secDone ? 1 : 0) + '"><span class="caret">' + (sopen ? '&#9662;' : '&#9656;') + '</span>' + sec.sep + (secDone ? ' <em>All packed</em>' : '') + '</div><div class="pack-body">' + secHtml + '</div></div>';
   });
   h += '</section>';
   document.getElementById('panel-packing').innerHTML = h;
@@ -682,6 +700,8 @@ document.addEventListener('click', function(e) {
   if (g) { show(g.getAttribute('data-goto'), true); return; }
   var f = e.target.closest('[data-filter]');
   if (f) { activeFilter = f.getAttribute('data-filter'); renderCombos(); return; }
+  var tg = e.target.closest('[data-toggle]');
+  if (tg) { var k = tg.getAttribute('data-toggle'), c = tg.getAttribute('data-complete') === '1'; userOpen[k] = { open: !isOpen(k, c), complete: c }; renderPacking(); return; }
   if (e.target.id === 'pk-reset') { packed = {}; savePacked(packed); renderPacking(); }
 });
 document.addEventListener('change', function(e) {
