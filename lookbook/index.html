@@ -160,6 +160,8 @@
   .pack-out { font-size: 9px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: #8a5a2b; margin-top: 3px; }
   .out-box { margin-top: 24px; padding: 14px 16px; border: 0.5px solid var(--gray-line); border-left: 2px solid var(--black); border-radius: 4px; background: rgba(255,255,255,0.7); font-size: 13px; font-weight: 300; line-height: 1.8; }
   .out-title { font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .pack-item.friend { background: #ebe6de; margin: 0 -12px; padding: 10px 12px; border-radius: 4px; border-bottom-color: #fbfaf8; cursor: default; }
+  .pack-item.friend input { opacity: 0.55; cursor: default; }
   .pack-sep { font-size: 26px; font-weight: 200; margin-top: 56px; padding-bottom: 4px; }
   .pack-sep:first-child { margin-top: 8px; }
   .pack-group h3 { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1.5px solid var(--black); margin-bottom: 4px; }
@@ -563,12 +565,14 @@ function packRows() {
   return rows;
 }
 
+function isFriend(id) { return I[id] && I[id].friend !== undefined; }
+function isDone(id) { return !!packed[id] || isFriend(id); }
 function renderPacking() {
   var groups = packRows();
   var total = 0, done = 0;
   var uniq = {};
   groups.forEach(function(g) { if (g.list) g.list.forEach(function(r) { uniq[r.id] = 1; }); });
-  Object.keys(uniq).forEach(function(id) { total++; if (packed[id]) done++; });
+  Object.keys(uniq).forEach(function(id) { total++; if (isDone(id)) done++; });
   var h = '<section><div class="section-label">Packing List</div><h2>Everything going in the bag</h2>' +
     '<p class="lede">Packed look by look, top to bottom, then the breakfast pieces by type, then shoes, bags, and jewellery and accessories on their own, then everything else. Items your friend has are listed at the bottom. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
     '<div class="progress-wrap"><div class="progress-row"><span>Packed</span><span><strong id="pk-done">' + done + '</strong> of ' + total + '</span></div>' +
@@ -581,13 +585,14 @@ function renderPacking() {
     })() + '</section><section style="padding-top:0">';
   groups.forEach(function(g) {
     if (g.sep) { h += '<div class="pack-sep">' + g.sep + '</div>'; return; }
-    var gd = g.list.filter(function(r) { return packed[r.id]; }).length;
+    var gd = g.list.filter(function(r) { return isDone(r.id); }).length;
     h += '<div class="pack-group"><h3>' + g.g + '<span>' + gd + ' / ' + g.list.length + '</span></h3>';
     g.list.forEach(function(r) {
-      h += '<label class="pack-item' + (packed[r.id] ? ' done' : '') + '">' +
-        '<input type="checkbox" data-id="' + r.id + '"' + (packed[r.id] ? ' checked' : '') + ' />' +
+      var fr = isFriend(r.id);
+      h += '<label class="pack-item' + (fr ? ' friend' : (packed[r.id] ? ' done' : '')) + '">' +
+        '<input type="checkbox" data-id="' + r.id + '"' + (isDone(r.id) ? ' checked' : '') + (fr ? ' disabled' : '') + ' />' +
         '<div class="pack-thumb">' + (r.img ? '<img src="img/' + r.img + '.jpg" alt="" loading="lazy" />' : '') + '</div>' +
-        '<div class="pack-text"><div class="pack-name">' + esc(r.n) + '</div><div class="pack-sub">' + esc(r.s) + '</div>' + (r.out && !packed[r.id] ? '<div class="pack-out">Outstanding · ' + esc(r.out) + '</div>' : '') + (r.friend !== undefined && !packed[r.id] ? '<div class="pack-out">With your friend' + (r.friend ? ' · ' + esc(r.friend) : '') + '</div>' : '') + '</div></label>';
+        '<div class="pack-text"><div class="pack-name">' + esc(r.n) + '</div><div class="pack-sub">' + esc(r.s) + '</div>' + (r.out && !packed[r.id] ? '<div class="pack-out">Outstanding · ' + esc(r.out) + '</div>' : '') + (fr ? '<div class="pack-out">With your friend' + (r.friend ? ' · ' + esc(r.friend) : '') + '</div>' : '') + '</div></label>';
     });
     h += '</div>';
   });
