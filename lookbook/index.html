@@ -157,6 +157,8 @@
   .bar div { height: 100%; background: var(--black); width: 0; transition: width 0.35s ease; }
   .pack-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
   .pack-group { margin-top: 36px; }
+  .pack-sep { font-size: 26px; font-weight: 200; margin-top: 56px; padding-bottom: 4px; }
+  .pack-sep:first-child { margin-top: 8px; }
   .pack-group h3 { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1.5px solid var(--black); margin-bottom: 4px; }
   .pack-group h3 span { color: var(--gray-text); font-weight: 500; }
   .pack-item { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 0.5px solid var(--gray-border); cursor: pointer; user-select: none; }
@@ -293,6 +295,7 @@ var I = {
   // Shoes
   'zara-sandals':        { n: 'Brown sandals', s: 'Wardrobe · Zara', img: 'zara-sandals' },
   'apricot-flats':       { n: 'Apricot crochet tie-ankle flats', s: 'Shein · Musera', img: 'apricot-flats' },
+  'slippers':            { n: 'Slippers', s: 'Wardrobe' },
   'black-mesh-flats':    { n: 'Black mesh ballet flats', s: 'Shein · ADAMUMU', img: 'black-mesh-flats' },
   // Bags
   'woven-bag':           { n: 'Woven half-moon bag', s: 'Wardrobe · Shein', img: 'woven-bag' },
@@ -340,7 +343,7 @@ var DAYS = [
   { day: 'Saturday 7 November', weather: 'High 33° · Low 18°', looks: [
     { num: 'Look 3', name: 'Breakfast', meta: 'Cascades · 07:30 to 11:30', breakfast: true },
     { num: 'Look 4', name: 'Lost at the Valley', meta: 'Valley of Waves · 11:00 to 17:00',
-      note: 'Keep the woven bag on a lounger, away from the water, and your phone in a sealable bag.',
+      note: 'Keep the woven bag and your phone on a lounger, away from the water.',
       options: [
         { label: 'Option 1', items: ['brown-crochet-coverup', 'brown-bikini', 'corset-belt'] },
         { label: 'Option 2', items: ['brown-knit-set'] },
@@ -397,23 +400,13 @@ var COMBOS = [
 
 /* ---------- PACKING ---------- */
 var PACK = [
-  { g: 'Dresses', items: ['nuvra-white-dress', 'bodycon', 'emerald-dress', 'black-maxi', 'animal-maxi'] },
-  { g: 'Sets', items: ['opulessa-purple-set', 'turquoise-set', 'yellow-striped-set', 'brown-knit-set', 'blue-crochet-set'] },
-  { g: 'Tops', items: ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank', 'bw-striped-top', 'striped-button-down', 'black-sheer-top', 'sequin-top', 'manhattan-tee', 'black-linen-shirt'] },
-  { g: 'Bottoms', items: ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'black-linen-trousers', 'black-crochet-trousers', 'white-mini-skirt', 'yellow-skort', 'romwe-fringe-skirt', 'black-skirt', 'bell-bottoms', 'mom-jeans', 'black-denim-shorts'] },
-  { g: 'Swim and cover-ups', items: ['oceva-black-bikini', 'white-bikini', 'gold-bikini-top', 'brown-bikini', 'brown-crochet-coverup', 'black-crochet-coverup'] },
-  { g: 'Shoes', items: ['zara-sandals', 'apricot-flats', 'black-mesh-flats'] },
-  { g: 'Bags', items: ['woven-bag', 'silver-beaded-bag', 'zara-city-bag', 'brown-shoulder-bag', 'mrp-bag'] },
-  { g: 'Jewellery and accessories', items: ['gold-jewellery', 'silver-bangles', 'silver-ear-cuffs', 'silver-studs', 'tortoiseshell-bangles', 'corset-belt'] },
-  { g: 'Headscarves and hats', items: ['black-crochet-headscarf', 'coffee-headscarf', 'gold-net-headscarf', 'black-bucket-hat', 'straw-hat', 'galxboy-hat'] },
+  { g: 'Shoes', items: ['slippers'] },
+  { g: 'Extras and backups', items: ['black-crochet-coverup', 'straw-hat', 'galxboy-hat'] },
   { g: 'Underwear and sleep', items: ['nude-seamless', 'everyday-underwear', 'sleep-satin', 'sleep-cotton', 'sleep-lace-cami', 'lingerie-set'] },
   { g: 'Essentials', items: [
     ['x-id', 'ID (needed at the gate and at check-in)'],
     ['x-howler', 'Howler ticket confirmation and hotel booking, saved offline'],
-    ['x-card', 'Bank card and some cash'],
-    ['x-phone', 'Phone, charger and power bank'],
-    ['x-ziplock', 'Sealable bag for your phone at the Valley'],
-    ['x-umbrella', 'Small umbrella for Sunday'] ] },
+    ['x-phone', 'Phone, charger and power bank'] ] },
   { g: 'Sun care', items: [
     ['x-spf', 'SPF 50'], ['x-aftersun', 'After-sun'], ['x-lip', 'SPF lip balm'], ['x-sunnies', 'Sunglasses'] ] },
   { g: 'Beauty and toiletries', items: [
@@ -507,10 +500,35 @@ var packed = loadPacked();
 
 function packRows() {
   var rows = [];
+  function row(ref, sub) {
+    var id = Array.isArray(ref) ? ref[0] : ref;
+    if (I[id].pack === false) id = 'blue-crochet-set';
+    var it = I[id];
+    return { id: id, n: it.n, img: it.img, s: (sub ? sub + ' · ' : '') + it.s };
+  }
+  rows.push({ sep: 'Looks' });
+  DAYS.forEach(function(d) {
+    d.looks.forEach(function(l) {
+      if (l.breakfast) return;
+      var seen = {}, list = [];
+      l.options.forEach(function(o) {
+        var sub = l.options.length > 1 ? o.label : '';
+        o.items.forEach(function(r) { var x = row(r, sub); if (!seen[x.id]) { seen[x.id] = 1; list.push(x); } });
+      });
+      rows.push({ g: l.num + ' · ' + l.name, list: list });
+    });
+  });
+  rows.push({ sep: 'Breakfast combinations' });
+  COMBOS.forEach(function(c, i) {
+    var seen = {}, list = [];
+    c.items.forEach(function(r) { var x = row(r); if (!seen[x.id]) { seen[x.id] = 1; list.push(x); } });
+    rows.push({ g: 'Combo ' + String(i + 1).padStart(2, '0'), list: list });
+  });
+  rows.push({ sep: 'Everything else' });
   PACK.forEach(function(g) {
     var list = g.items.map(function(r) {
       if (Array.isArray(r)) return { id: r[0], n: r[1], img: r[2], s: r[3] || g.g };
-      var it = I[r]; return { id: r, n: it.n, img: it.img, s: it.s };
+      return row(r);
     });
     rows.push({ g: g.g, list: list });
   });
@@ -520,13 +538,16 @@ function packRows() {
 function renderPacking() {
   var groups = packRows();
   var total = 0, done = 0;
-  groups.forEach(function(g) { g.list.forEach(function(r) { total++; if (packed[r.id]) done++; }); });
+  var uniq = {};
+  groups.forEach(function(g) { if (g.list) g.list.forEach(function(r) { uniq[r.id] = 1; }); });
+  Object.keys(uniq).forEach(function(id) { total++; if (packed[id]) done++; });
   var h = '<section><div class="section-label">Packing List</div><h2>Everything going in the bag</h2>' +
-    '<p class="lede">Every item from the looks and combinations, listed once, plus essentials. Ticks are saved on this device.</p>' +
+    '<p class="lede">Packed look by look, then the breakfast combinations, then everything else. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
     '<div class="progress-wrap"><div class="progress-row"><span>Packed</span><span><strong id="pk-done">' + done + '</strong> of ' + total + '</span></div>' +
     '<div class="bar"><div id="pk-bar" style="width:' + (total ? done / total * 100 : 0) + '%"></div></div>' +
     '<div class="pack-actions"><button class="goto" id="pk-reset">Clear all ticks</button></div></div></section><section style="padding-top:0">';
   groups.forEach(function(g) {
+    if (g.sep) { h += '<div class="pack-sep">' + g.sep + '</div>'; return; }
     var gd = g.list.filter(function(r) { return packed[r.id]; }).length;
     h += '<div class="pack-group"><h3>' + g.g + '<span>' + gd + ' / ' + g.list.length + '</span></h3>';
     g.list.forEach(function(r) {
