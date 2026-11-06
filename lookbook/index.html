@@ -254,11 +254,11 @@ var I = {
   'nuvra-white-dress':   { n: 'White bandage mini dress', s: 'Shein · Nuvra', img: 'nuvra-white-dress' },
   'bodycon':             { n: 'Black open-back bodycon dress', s: 'Wardrobe · Zara', img: 'bodycon' },
   'emerald-dress':       { n: 'Emerald sequin mini dress', s: 'Wardrobe · H&M' },
-  'black-maxi':          { n: 'Black maxi dress', s: 'Wardrobe' },
-  'animal-maxi':         { n: 'Animal print maxi dress', s: 'Wardrobe' },
+  'black-maxi':          { n: 'Black maxi dress', s: 'Wardrobe', friend: '' },
+  'animal-maxi':         { n: 'Animal print maxi dress', s: 'Wardrobe', friend: '' },
   // Sets
   'opulessa-purple-set': { n: 'Purple beaded swim set with sheer cover-up', s: 'Shein · Opulessa', img: 'opulessa-purple-set' },
-  'turquoise-set':       { n: 'Turquoise halter top and sequin mini skirt', s: 'Shein · Soleia', img: 'turquoise-set', out: 'Your friend has it' },
+  'turquoise-set':       { n: 'Turquoise halter top and sequin mini skirt', s: 'Shein · Soleia', img: 'turquoise-set', friend: '' },
   'yellow-striped-set':  { n: 'Yellow and white striped short set', s: 'Wardrobe · Shein', img: 'yellow-striped-set' },
   'brown-knit-set':      { n: 'Brown knit off-shoulder set with swimsuit', s: 'Shein · SHEIN Swim' },
   'blue-crochet-set':    { n: 'Blue and white striped crochet set', s: 'Wardrobe · Soleia' },
@@ -312,11 +312,11 @@ var I = {
   'silver-ear-cuffs':    { n: 'Silver ear cuffs', s: 'Shein · YI ME' },
   'silver-studs':        { n: 'Silver asymmetric studs', s: 'Shein · FHGK', img: 'silver-studs' },
   'tortoiseshell-bangles':{ n: 'Tortoiseshell bangles', s: 'Shein · Cumai' },
-  'corset-belt':         { n: 'Brown corset belt', s: 'Shein · Sandy abc', img: 'corset-belt' },
+  'corset-belt':         { n: 'Brown corset belt', s: 'Shein · Sandy abc', img: 'corset-belt', friend: 'Being altered' },
   'black-crochet-headscarf':{ n: 'Black crochet lace headscarf', s: 'Shein' },
   'coffee-headscarf':    { n: 'Coffee crochet headscarf', s: 'Shein · SugarPOP' },
   'gold-net-headscarf':  { n: 'Gold rhinestone net headscarf', s: 'Shein' },
-  'black-bucket-hat':    { n: 'Black knit bucket hat', s: 'Wardrobe' },
+  'black-bucket-hat':    { n: 'Black knit bucket hat', s: 'Wardrobe', friend: '' },
   'straw-hat':           { n: 'Straw hat with fringed brim', s: 'Wardrobe · extra' },
   'galxboy-hat':         { n: 'Cream GALXBOY hat', s: 'Wardrobe · extra' },
   // Underwear and sleep
@@ -509,7 +509,7 @@ function packRows() {
     var id = Array.isArray(ref) ? ref[0] : ref;
     if (I[id].pack === false) id = 'blue-crochet-set';
     var it = I[id];
-    return { id: id, n: it.n, img: it.img, s: (sub ? sub + ' · ' : '') + it.s, out: it.out };
+    return { id: id, n: it.n, img: it.img, s: (sub ? sub + ' · ' : '') + it.s, out: it.out, friend: it.friend };
   }
   rows.push({ sep: 'Looks' });
   DAYS.forEach(function(d) {
@@ -550,6 +550,8 @@ function packRows() {
     });
     rows.push({ g: g.g, list: list });
   });
+  var fl = Object.keys(I).filter(function(k) { return I[k].friend !== undefined; }).map(function(k) { return row(k); });
+  if (fl.length) { rows.push({ sep: 'With your friend' }); rows.push({ g: 'Collect from your friend', list: fl }); }
   return rows;
 }
 
@@ -560,7 +562,7 @@ function renderPacking() {
   groups.forEach(function(g) { if (g.list) g.list.forEach(function(r) { uniq[r.id] = 1; }); });
   Object.keys(uniq).forEach(function(id) { total++; if (packed[id]) done++; });
   var h = '<section><div class="section-label">Packing List</div><h2>Everything going in the bag</h2>' +
-    '<p class="lede">Packed look by look, top to bottom, then the breakfast combination pieces by type, then everything else. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
+    '<p class="lede">Packed look by look, top to bottom, then the breakfast combination pieces by type, then everything else. Items your friend has are listed at the bottom. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
     '<div class="progress-wrap"><div class="progress-row"><span>Packed</span><span><strong id="pk-done">' + done + '</strong> of ' + total + '</span></div>' +
     '<div class="bar"><div id="pk-bar" style="width:' + (total ? done / total * 100 : 0) + '%"></div></div>' +
     '<div class="pack-actions"><button class="goto" id="pk-reset">Clear all ticks</button></div></div>' +
@@ -577,7 +579,7 @@ function renderPacking() {
       h += '<label class="pack-item' + (packed[r.id] ? ' done' : '') + '">' +
         '<input type="checkbox" data-id="' + r.id + '"' + (packed[r.id] ? ' checked' : '') + ' />' +
         '<div class="pack-thumb">' + (r.img ? '<img src="img/' + r.img + '.jpg" alt="" loading="lazy" />' : '') + '</div>' +
-        '<div class="pack-text"><div class="pack-name">' + esc(r.n) + '</div><div class="pack-sub">' + esc(r.s) + '</div>' + (r.out && !packed[r.id] ? '<div class="pack-out">Outstanding · ' + esc(r.out) + '</div>' : '') + '</div></label>';
+        '<div class="pack-text"><div class="pack-name">' + esc(r.n) + '</div><div class="pack-sub">' + esc(r.s) + '</div>' + (r.out && !packed[r.id] ? '<div class="pack-out">Outstanding · ' + esc(r.out) + '</div>' : '') + (r.friend !== undefined && !packed[r.id] ? '<div class="pack-out">With your friend' + (r.friend ? ' · ' + esc(r.friend) : '') + '</div>' : '') + '</div></label>';
     });
     h += '</div>';
   });
