@@ -505,8 +505,7 @@ var packed = loadPacked();
 var SEC = [
   ['Shoes', ['zara-sandals', 'apricot-flats', 'black-mesh-flats', 'slippers']],
   ['Bags', ['woven-bag', 'silver-beaded-bag', 'zara-city-bag', 'brown-shoulder-bag', 'mrp-bag']],
-  ['Accessories', ['gold-jewellery', 'silver-bangles', 'silver-ear-cuffs', 'silver-studs', 'tortoiseshell-bangles', 'corset-belt']],
-  ['Head wraps and hats', ['black-crochet-headscarf', 'coffee-headscarf', 'gold-net-headscarf', 'black-bucket-hat', 'straw-hat', 'galxboy-hat']]
+  ['Jewellery and accessories', ['gold-jewellery', 'silver-bangles', 'silver-ear-cuffs', 'silver-studs', 'tortoiseshell-bangles', 'corset-belt', 'black-crochet-headscarf', 'coffee-headscarf', 'gold-net-headscarf', 'black-bucket-hat', 'straw-hat', 'galxboy-hat']]
 ];
 var SECID = {}; SEC.forEach(function(x) { x[1].forEach(function(id) { SECID[id] = 1; }); });
 function packRows() {
@@ -568,7 +567,7 @@ function renderPacking() {
   groups.forEach(function(g) { if (g.list) g.list.forEach(function(r) { uniq[r.id] = 1; }); });
   Object.keys(uniq).forEach(function(id) { total++; if (packed[id]) done++; });
   var h = '<section><div class="section-label">Packing List</div><h2>Everything going in the bag</h2>' +
-    '<p class="lede">Packed look by look, top to bottom, then the breakfast pieces by type, then shoes, bags, accessories and head wraps on their own, then everything else. Items your friend has are listed at the bottom. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
+    '<p class="lede">Packed look by look, top to bottom, then the breakfast pieces by type, then shoes, bags, and jewellery and accessories on their own, then everything else. Items your friend has are listed at the bottom. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
     '<div class="progress-wrap"><div class="progress-row"><span>Packed</span><span><strong id="pk-done">' + done + '</strong> of ' + total + '</span></div>' +
     '<div class="bar"><div id="pk-bar" style="width:' + (total ? done / total * 100 : 0) + '%"></div></div>' +
     '<div class="pack-actions"><button class="goto" id="pk-reset">Clear all ticks</button></div></div>' +
