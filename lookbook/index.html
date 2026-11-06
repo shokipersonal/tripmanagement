@@ -265,6 +265,7 @@ var I = {
   'brown-knit-set':      { n: 'Brown knit off-shoulder set with swimsuit', s: 'Shein · SHEIN Swim' },
   'blue-crochet-set':    { n: 'Blue and white striped crochet set', s: 'Wardrobe · Soleia' },
   'cream-fringe-set':    { n: 'Cream knit bandeau top and fringe skirt set', s: 'Wardrobe', img: 'cream-fringe-set' },
+  'black-ruffle-top':    { n: 'Black ruffle cami crop top', s: 'Wardrobe · H&M Divided', img: 'black-ruffle-top' },
   'blue-crochet-top':    { n: 'Blue striped crochet top (from the set)', s: 'Wardrobe · Soleia', pack: false },
   // Tops
   'bodysuit-white':      { n: 'Short sleeve stretch bodysuit, white', s: 'Wardrobe', img: 'bodysuit-white' },
@@ -405,7 +406,9 @@ var COMBOS = [
   { items: ['yellow-skort', 'bodysuit-white', 'apricot-flats', 'woven-bag'] },
   { items: ['blue-crochet-top', 'white-linen-shorts', 'apricot-flats', 'woven-bag'] },
   { items: ['blue-crochet-top', 'white-mini-skirt', 'zara-sandals', 'woven-bag'] },
-  { items: ['blue-crochet-set', 'zara-sandals', 'woven-bag'], note: 'Top and shorts worn together.' }
+  { items: ['blue-crochet-set', 'zara-sandals', 'woven-bag'], note: 'Top and shorts worn together.' },
+  { items: ['black-ruffle-top', 'black-linen-shorts'] },
+  { items: ['black-ruffle-top', 'black-linen-trousers'] }
 ];
 
 /* ---------- PACKING ---------- */
@@ -484,7 +487,7 @@ var activeFilter = 'all';
 
 function renderCombos() {
   var h = '<section><div class="section-label">Outfit Combinations</div><h2>Breakfast and daytime</h2>' +
-    '<p class="lede">Thirteen combinations to pick from for breakfast on Saturday, Sunday and Monday, and Tuesday if the extension includes it. Each one is listed with its shoes and bag.</p>' +
+    '<p class="lede">Fifteen combinations to pick from for breakfast on Saturday, Sunday and Monday, and Tuesday if the extension includes it. Most are listed with their shoes and bag.</p>' +
     '<div class="filters">' + FILTERS.map(function(f) {
       return '<button class="chip' + (f.k === activeFilter ? ' active' : '') + '" data-filter="' + f.k + '">' + f.t + '</button>';
     }).join('') + '</div></section><section style="padding-top:0">';
@@ -538,7 +541,7 @@ function packRows() {
   var CATS = [
     ['Dresses', ['animal-maxi', 'black-maxi']],
     ['Sets', ['blue-crochet-set', 'cream-fringe-set']],
-    ['Tops', ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank']],
+    ['Tops', ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank', 'black-ruffle-top']],
     ['Shirts', ['black-linen-shirt', 'striped-button-down']],
     ['Bottoms', ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'white-mini-skirt', 'yellow-skort', 'black-linen-trousers', 'mom-jeans']],
   ];
