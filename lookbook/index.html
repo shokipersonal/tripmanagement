@@ -360,7 +360,7 @@ var DAYS = [
     { num: 'Look 7', name: 'Day club', meta: 'GALXBOY or Hennessy Day Club · 11:00 to 18:00',
       options: [
         { label: 'Option 1', items: ['oceva-black-bikini', 'black-sheer-top', 'romwe-fringe-skirt', 'woven-bag'] },
-        { label: 'Option 2', items: ['oceva-black-bikini', 'black-crochet-trousers', 'black-linen-shirt', 'zara-city-bag'] },
+        { label: 'Option 2', items: ['oceva-black-bikini', 'black-crochet-trousers', 'zara-city-bag'] },
         { label: 'Both options', shared: true, items: ['black-crochet-headscarf', 'zara-sandals', 'gold-jewellery'] }
       ] },
     { num: 'Look 8', name: 'Disco 3000', meta: 'Fon City · Sun Park · 19:00 to 02:00',
@@ -533,10 +533,11 @@ function packRows() {
   var CATS = [
     ['Dresses', ['animal-maxi', 'black-maxi']],
     ['Sets', ['blue-crochet-set']],
-    ['Tops', ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank', 'striped-button-down']],
+    ['Tops', ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank']],
+    ['Shirts', ['black-linen-shirt', 'striped-button-down']],
     ['Bottoms', ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'white-mini-skirt', 'yellow-skort', 'black-linen-trousers', 'mom-jeans']],
   ];
-  var inCombos = {};
+  var inCombos = { 'black-linen-shirt': 1 };
   COMBOS.forEach(function(c) { c.items.forEach(function(r) { var x = row(r); if (!SECID[x.id]) inCombos[x.id] = 1; }); });
   var placed = {};
   CATS.forEach(function(cat) {
