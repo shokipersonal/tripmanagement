@@ -427,7 +427,11 @@ var PACK = [
   { g: 'Essentials', items: [
     ['x-id', 'ID (needed at the gate and at check-in)'],
     ['x-howler', 'Howler ticket confirmation and hotel booking, saved offline'],
-    ['x-phone', 'Phone, charger and power bank'],
+    ['x-phone', 'Phone'],
+    ['x-phone-charger', 'Phone charger'],
+    ['x-powerbank', 'Power bank'],
+    ['x-laptop', 'Laptop'],
+    ['x-laptop-charger', 'Laptop charger'],
     ['x-plug', '2-pin plug adapter'],
     'polaroid-film' ] },
   { g: 'Body care', items: [
@@ -578,6 +582,15 @@ var KEY = 'foncity-lookbook-packed-v1';
 function loadPacked() { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } }
 function savePacked(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) {} }
 var packed = loadPacked();
+(function() {
+  var PRESET_KEY = 'foncity-lookbook-preset-1', PRESET = ['x-plug', 'x-laptop', 'x-laptop-charger', 'x-powerbank'];
+  try {
+    if (!localStorage.getItem(PRESET_KEY)) {
+      PRESET.forEach(function(id) { packed[id] = 1; });
+      savePacked(packed); localStorage.setItem(PRESET_KEY, '1');
+    }
+  } catch (e) { PRESET.forEach(function(id) { packed[id] = 1; }); }
+})();
 
 var SEC = [
   ['Shoes', ['zara-sandals', 'apricot-flats', 'black-mesh-flats', 'slippers']],
