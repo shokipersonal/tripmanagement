@@ -264,6 +264,7 @@ var I = {
   'yellow-striped-set':  { n: 'Yellow and white striped short set', s: 'Wardrobe · Shein', img: 'yellow-striped-set' },
   'brown-knit-set':      { n: 'Brown knit off-shoulder set with swimsuit', s: 'Shein · SHEIN Swim' },
   'blue-crochet-set':    { n: 'Blue and white striped crochet set', s: 'Wardrobe · Soleia' },
+  'cream-fringe-set':    { n: 'Cream knit bandeau top and fringe skirt set', s: 'Wardrobe', img: 'cream-fringe-set' },
   'blue-crochet-top':    { n: 'Blue striped crochet top (from the set)', s: 'Wardrobe · Soleia', pack: false },
   // Tops
   'bodysuit-white':      { n: 'Short sleeve stretch bodysuit, white', s: 'Wardrobe', img: 'bodysuit-white' },
@@ -536,12 +537,12 @@ function packRows() {
   rows.push({ sep: 'Breakfast combinations' });
   var CATS = [
     ['Dresses', ['animal-maxi', 'black-maxi']],
-    ['Sets', ['blue-crochet-set']],
+    ['Sets', ['blue-crochet-set', 'cream-fringe-set']],
     ['Tops', ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank']],
     ['Shirts', ['black-linen-shirt', 'striped-button-down']],
     ['Bottoms', ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'white-mini-skirt', 'yellow-skort', 'black-linen-trousers', 'mom-jeans']],
   ];
-  var inCombos = { 'black-linen-shirt': 1 };
+  var inCombos = { 'black-linen-shirt': 1, 'cream-fringe-set': 1 };
   COMBOS.forEach(function(c) { c.items.forEach(function(r) { var x = row(r); if (!SECID[x.id]) inCombos[x.id] = 1; }); });
   var placed = {};
   CATS.forEach(function(cat) {
