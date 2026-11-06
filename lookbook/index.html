@@ -375,7 +375,10 @@ var DAYS = [
   { day: 'Monday 9 November', weather: 'High 28° · Low 16°', looks: [
     { num: 'Look 9', name: 'Breakfast', meta: 'Cascades · 07:30 to 11:30', breakfast: true },
     { num: 'Look 10', name: 'Majita Monday', meta: 'The Shebeen · 15:00 to 22:00',
-      options: [{ items: ['black-denim-shorts', 'manhattan-tee', 'black-bucket-hat', 'zara-city-bag', 'black-mesh-flats'] }] }
+      options: [
+        { label: 'Option 1', items: ['black-denim-shorts', 'manhattan-tee', 'black-bucket-hat', 'zara-city-bag', 'black-mesh-flats'] },
+        { label: 'Option 2', items: ['mom-jeans', ['bodysuit-white', 'Or any bodysuit or the black tank'], 'apricot-flats', 'zara-city-bag'] }
+      ] }
   ] },
   { day: 'Tuesday 10 November', weather: 'High 32° · no rain', looks: [
     { num: 'Look 11', name: 'Check-out and travel home', meta: 'Extension night · drive home',
@@ -397,7 +400,6 @@ var COMBOS = [
   { items: ['yellow-skort', 'bodysuit-white', 'apricot-flats', 'woven-bag'] },
   { items: ['blue-crochet-top', 'white-linen-shorts', 'apricot-flats', 'woven-bag'] },
   { items: ['blue-crochet-top', 'white-mini-skirt', 'zara-sandals', 'woven-bag'] },
-  { items: ['mom-jeans', 'bodysuit-white', 'apricot-flats', 'woven-bag'], note: 'Swap in any of the bodysuits or the black tank.' },
   { items: ['blue-crochet-set', 'zara-sandals', 'woven-bag'], note: 'Top and shorts worn together.' }
 ];
 
@@ -477,7 +479,7 @@ var activeFilter = 'all';
 
 function renderCombos() {
   var h = '<section><div class="section-label">Outfit Combinations</div><h2>Breakfast and daytime</h2>' +
-    '<p class="lede">Fourteen combinations to pick from for breakfast on Saturday, Sunday and Monday, and Tuesday if the extension includes it. Each one is listed with its shoes and bag.</p>' +
+    '<p class="lede">Thirteen combinations to pick from for breakfast on Saturday, Sunday and Monday, and Tuesday if the extension includes it. Each one is listed with its shoes and bag.</p>' +
     '<div class="filters">' + FILTERS.map(function(f) {
       return '<button class="chip' + (f.k === activeFilter ? ' active' : '') + '" data-filter="' + f.k + '">' + f.t + '</button>';
     }).join('') + '</div></section><section style="padding-top:0">';
