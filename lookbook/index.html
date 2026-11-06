@@ -304,6 +304,7 @@ var I = {
   'apricot-flats':       { n: 'Apricot crochet tie-ankle flats', s: 'Shein · Musera', img: 'apricot-flats' },
   'spf':                 { n: 'SPF 50 sunscreen', s: 'Sun care', friend: '' },
   'polaroid-film':       { n: 'Polaroid film', s: 'Essentials', friend: '' },
+  'sunglasses':          { n: 'Sunglasses', s: 'Wardrobe' },
   'slippers':            { n: 'Black slippers, for mornings', s: 'Wardrobe' },
   'black-mesh-flats':    { n: 'Black mesh ballet flats', s: 'Shein · ADAMUMU', img: 'black-mesh-flats' },
   // Bags
@@ -420,19 +421,72 @@ var PACK = [
     ['x-howler', 'Howler ticket confirmation and hotel booking, saved offline'],
     ['x-phone', 'Phone, charger and power bank'],
     'polaroid-film' ] },
-  { g: 'Sun care', items: [
-    'spf', ['x-aftersun', 'After-sun'], ['x-lip', 'SPF lip balm'], ['x-sunnies', 'Sunglasses'] ] },
-  { g: 'Beauty and toiletries', items: [
-    ['x-skincare', 'Skincare'],
-    ['x-makeup', 'Makeup'],
-    ['x-brushes', 'Makeup brush set', 'brush-set', 'Shein · XINYUAN-MEI'],
-    ['x-setting', 'Setting spray'],
-    ['x-cosmetic', 'Black mesh cosmetic bag', 'mesh-cosmetic-bag', 'Shein · nacai'],
-    ['x-hair', 'Hair products and bonnet'],
-    ['x-curlers', 'No-heat curlers', null, 'Shein · YWxingya'],
-    ['x-deo', 'Deodorant and perfume'],
-    ['x-meds', 'Personal meds'],
-    ['x-quick', 'Quick-change kit: face wipes, dry shampoo, mini makeup'] ] }
+  { g: 'Body care', items: [
+    ['bc-0', 'Face cloth'],
+    ['bc-1', 'Body vaslap'],
+    ['bc-2', 'Bath gloves'],
+    ['bc-3', 'Dettol bath soap'],
+    ['bc-4', 'Dove bar soap'],
+    ['bc-5', 'Face wash'],
+    ['bc-6', 'Epimax, as face moisturiser'],
+    ['bc-7', 'Lotion'],
+    ['bc-8', 'Body oil'],
+    ['bc-9', 'Vaseline'],
+    ['bc-10', 'Dove roll-on'],
+    'spf',
+    ['bd-0', 'Toothbrush'],
+    ['bd-1', 'Toothpaste'],
+    ['bd-2', 'Floss'],
+    ['bd-3', 'Tongue scraper'],
+    ['bd-4', 'Cotton pads'],
+    ['bd-5', 'Earbuds'],
+    ['bd-6', 'Tampons'] ] },
+  { g: 'Makeup', items: [
+    ['mk-0', 'Primer'],
+    ['mk-1', 'Foundation'],
+    ['mk-2', "L'Oréal concealer"],
+    ['mk-3', 'Smudge concealer'],
+    ['mk-4', 'Pressed powder'],
+    ['mk-5', 'Contour'],
+    ['mk-6', 'Powder blush'],
+    ['mk-7', 'Cream blush'],
+    ['mk-8', 'Highlighter palette'],
+    ['mk-9', 'Eyeshadow palette'],
+    ['mk-10', 'Brow gel'],
+    ['mk-11', 'Eyebrow pencil'],
+    ['mk-12', 'Black eyeliner'],
+    ['mk-13', 'Mascara'],
+    ['mk-14', 'Lip liner'],
+    ['mk-15', 'Nude lipstick'],
+    ['mk-16', 'Lip gloss'],
+    ['mk-17', 'Setting spray'],
+    ['mk-18', 'Makeup wipes'],
+    ['x-brushes', 'Makeup brushes', 'brush-set', 'Shein · XINYUAN-MEI'],
+    ['mk-mirrors', '2 small compact mirrors'],
+    ['x-cosmetic', 'Mesh cosmetic bag', 'mesh-cosmetic-bag', 'Shein · nacai'] ] },
+  { g: 'Hair', items: [
+    ['hr-0', 'Barber tape'],
+    ['hr-1', 'Melting band'],
+    ['hr-2', 'Ghost Bond glue'],
+    ['hr-3', 'Bobby pins'],
+    ['hr-4', 'Hair ties'],
+    ['x-curlers', 'Heatless curlers', null, 'Shein · YWxingya'],
+    ['hw-0', 'Bonnets'],
+    ['hw-1', 'Silk head wrap'],
+    ['hw-2', 'Normal head wrap'] ] },
+  { g: 'Styling tools', items: [
+    ['st-0', 'Blow dryer'],
+    ['st-1', 'Straightener'],
+    ['st-2', 'Hot comb'],
+    ['st-3', 'Rat-tail comb'],
+    ['st-4', 'Small pink hairbrush'] ] },
+  { g: 'Perfume', items: [
+    ['pf-0', 'Kayali Marshmallow'],
+    ['pf-1', 'Scandal'] ] },
+  { g: 'Meds', items: [
+    ['md-0', 'Adco-Dol (optional, the recovery pack covers the rest)'] ] },
+  { g: 'Swimwear and cover-ups', items: [
+    ['sw-0', 'Extra swimsuits and cover-ups from your wardrobe'] ] }
 ];
 
 /* ---------- RENDER ---------- */
@@ -514,7 +568,7 @@ var packed = loadPacked();
 var SEC = [
   ['Shoes', ['zara-sandals', 'apricot-flats', 'black-mesh-flats', 'slippers']],
   ['Bags', ['woven-bag', 'silver-beaded-bag', 'zara-city-bag', 'brown-shoulder-bag', 'mrp-bag']],
-  ['Jewellery and accessories', ['gold-jewellery', 'silver-bangles', 'silver-ear-cuffs', 'silver-studs', 'tortoiseshell-bangles', 'corset-belt', 'black-crochet-headscarf', 'coffee-headscarf', 'gold-net-headscarf', 'black-bucket-hat', 'straw-hat', 'galxboy-hat']]
+  ['Jewellery and accessories', ['gold-jewellery', 'sunglasses', 'silver-bangles', 'silver-ear-cuffs', 'silver-studs', 'tortoiseshell-bangles', 'corset-belt', 'black-crochet-headscarf', 'coffee-headscarf', 'gold-net-headscarf', 'black-bucket-hat', 'straw-hat', 'galxboy-hat']]
 ];
 var SECID = {}; SEC.forEach(function(x) { x[1].forEach(function(id) { SECID[id] = 1; }); });
 function packRows() {
