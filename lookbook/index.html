@@ -157,6 +157,9 @@
   .bar div { height: 100%; background: var(--black); width: 0; transition: width 0.35s ease; }
   .pack-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
   .pack-group { margin-top: 36px; }
+  .pack-out { font-size: 9px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: #8a5a2b; margin-top: 3px; }
+  .out-box { margin-top: 24px; padding: 14px 16px; border: 0.5px solid var(--gray-line); border-left: 2px solid var(--black); border-radius: 4px; background: rgba(255,255,255,0.7); font-size: 13px; font-weight: 300; line-height: 1.8; }
+  .out-title { font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 4px; }
   .pack-sep { font-size: 26px; font-weight: 200; margin-top: 56px; padding-bottom: 4px; }
   .pack-sep:first-child { margin-top: 8px; }
   .pack-group h3 { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1.5px solid var(--black); margin-bottom: 4px; }
@@ -255,7 +258,7 @@ var I = {
   'animal-maxi':         { n: 'Animal print maxi dress', s: 'Wardrobe' },
   // Sets
   'opulessa-purple-set': { n: 'Purple beaded swim set with sheer cover-up', s: 'Shein · Opulessa', img: 'opulessa-purple-set' },
-  'turquoise-set':       { n: 'Turquoise halter top and sequin mini skirt', s: 'Shein · Soleia', img: 'turquoise-set' },
+  'turquoise-set':       { n: 'Turquoise halter top and sequin mini skirt', s: 'Shein · Soleia', img: 'turquoise-set', out: 'Your friend has it' },
   'yellow-striped-set':  { n: 'Yellow and white striped short set', s: 'Wardrobe · Shein', img: 'yellow-striped-set' },
   'brown-knit-set':      { n: 'Brown knit off-shoulder set with swimsuit', s: 'Shein · SHEIN Swim' },
   'blue-crochet-set':    { n: 'Blue and white striped crochet set', s: 'Wardrobe · Soleia' },
@@ -289,7 +292,7 @@ var I = {
   'oceva-black-bikini':  { n: 'Black bikini', s: 'Shein · Oceva' },
   'white-bikini':        { n: 'White bikini', s: 'Shein · SHEIN Swim' },
   'gold-bikini-top':     { n: 'Gold bikini top', s: 'Shein · Aloruh' },
-  'brown-bikini':        { n: 'Brown bikini (bottom still to find)', s: 'Wardrobe · Aloruh' },
+  'brown-bikini':        { n: 'Brown bikini', s: 'Wardrobe · Aloruh', out: 'Bottom still to find' },
   'brown-crochet-coverup':{ n: 'Brown crochet tie-front cover-up', s: 'Shein · Musera', img: 'brown-crochet-coverup' },
   'black-crochet-coverup':{ n: 'Black crochet tie-front cover-up (backup)', s: 'Shein · Musera', img: 'black-crochet-coverup' },
   // Shoes
@@ -504,7 +507,7 @@ function packRows() {
     var id = Array.isArray(ref) ? ref[0] : ref;
     if (I[id].pack === false) id = 'blue-crochet-set';
     var it = I[id];
-    return { id: id, n: it.n, img: it.img, s: (sub ? sub + ' · ' : '') + it.s };
+    return { id: id, n: it.n, img: it.img, s: (sub ? sub + ' · ' : '') + it.s, out: it.out };
   }
   rows.push({ sep: 'Looks' });
   DAYS.forEach(function(d) {
@@ -519,11 +522,24 @@ function packRows() {
     });
   });
   rows.push({ sep: 'Breakfast combinations' });
-  COMBOS.forEach(function(c, i) {
-    var seen = {}, list = [];
-    c.items.forEach(function(r) { var x = row(r); if (!seen[x.id]) { seen[x.id] = 1; list.push(x); } });
-    rows.push({ g: 'Combo ' + String(i + 1).padStart(2, '0'), list: list });
+  var CATS = [
+    ['Dresses', ['animal-maxi', 'black-maxi']],
+    ['Sets', ['blue-crochet-set']],
+    ['Tops', ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank', 'striped-button-down']],
+    ['Bottoms', ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'white-mini-skirt', 'yellow-skort', 'black-linen-trousers', 'mom-jeans']],
+    ['Shoes', ['apricot-flats', 'black-mesh-flats', 'zara-sandals']],
+    ['Bags', ['woven-bag', 'zara-city-bag', 'brown-shoulder-bag', 'mrp-bag']],
+    ['Jewellery and accessories', ['gold-jewellery', 'coffee-headscarf']]
+  ];
+  var inCombos = {};
+  COMBOS.forEach(function(c) { c.items.forEach(function(r) { var x = row(r); inCombos[x.id] = 1; }); });
+  var placed = {};
+  CATS.forEach(function(cat) {
+    var list = cat[1].filter(function(id) { return inCombos[id]; }).map(function(id) { placed[id] = 1; return row(id); });
+    if (list.length) rows.push({ g: cat[0], list: list });
   });
+  var rest = Object.keys(inCombos).filter(function(id) { return !placed[id]; }).map(function(id) { return row(id); });
+  if (rest.length) rows.push({ g: 'Other', list: rest });
   rows.push({ sep: 'Everything else' });
   PACK.forEach(function(g) {
     var list = g.items.map(function(r) {
@@ -542,10 +558,15 @@ function renderPacking() {
   groups.forEach(function(g) { if (g.list) g.list.forEach(function(r) { uniq[r.id] = 1; }); });
   Object.keys(uniq).forEach(function(id) { total++; if (packed[id]) done++; });
   var h = '<section><div class="section-label">Packing List</div><h2>Everything going in the bag</h2>' +
-    '<p class="lede">Packed look by look, then the breakfast combinations, then everything else. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
+    '<p class="lede">Packed look by look, top to bottom, then the breakfast combination pieces by type, then everything else. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
     '<div class="progress-wrap"><div class="progress-row"><span>Packed</span><span><strong id="pk-done">' + done + '</strong> of ' + total + '</span></div>' +
     '<div class="bar"><div id="pk-bar" style="width:' + (total ? done / total * 100 : 0) + '%"></div></div>' +
-    '<div class="pack-actions"><button class="goto" id="pk-reset">Clear all ticks</button></div></div></section><section style="padding-top:0">';
+    '<div class="pack-actions"><button class="goto" id="pk-reset">Clear all ticks</button></div></div>' +
+    (function() {
+      var outs = Object.keys(I).filter(function(k) { return I[k].out && !packed[k]; });
+      if (!outs.length) return '';
+      return '<div class="out-box"><div class="out-title">Outstanding</div>' + outs.map(function(k) { return '<div>' + esc(I[k].n) + ' · ' + esc(I[k].out) + '</div>'; }).join('') + '</div>';
+    })() + '</section><section style="padding-top:0">';
   groups.forEach(function(g) {
     if (g.sep) { h += '<div class="pack-sep">' + g.sep + '</div>'; return; }
     var gd = g.list.filter(function(r) { return packed[r.id]; }).length;
@@ -554,7 +575,7 @@ function renderPacking() {
       h += '<label class="pack-item' + (packed[r.id] ? ' done' : '') + '">' +
         '<input type="checkbox" data-id="' + r.id + '"' + (packed[r.id] ? ' checked' : '') + ' />' +
         '<div class="pack-thumb">' + (r.img ? '<img src="img/' + r.img + '.jpg" alt="" loading="lazy" />' : '') + '</div>' +
-        '<div class="pack-text"><div class="pack-name">' + esc(r.n) + '</div><div class="pack-sub">' + esc(r.s) + '</div></div></label>';
+        '<div class="pack-text"><div class="pack-name">' + esc(r.n) + '</div><div class="pack-sub">' + esc(r.s) + '</div>' + (r.out && !packed[r.id] ? '<div class="pack-out">Outstanding · ' + esc(r.out) + '</div>' : '') + '</div></label>';
     });
     h += '</div>';
   });
