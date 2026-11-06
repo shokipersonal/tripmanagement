@@ -405,8 +405,7 @@ var COMBOS = [
 
 /* ---------- PACKING ---------- */
 var PACK = [
-  { g: 'Shoes', items: ['slippers'] },
-  { g: 'Extras and backups', items: ['black-crochet-coverup', 'straw-hat', 'galxboy-hat'] },
+  { g: 'Backup', items: ['black-crochet-coverup'] },
   { g: 'Underwear and sleep', items: ['nude-seamless', 'everyday-underwear', 'sleep-satin', 'sleep-cotton', 'sleep-lace-cami', 'lingerie-set'] },
   { g: 'Essentials', items: [
     ['x-id', 'ID (needed at the gate and at check-in)'],
@@ -503,6 +502,13 @@ function loadPacked() { try { return JSON.parse(localStorage.getItem(KEY) || '{}
 function savePacked(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) {} }
 var packed = loadPacked();
 
+var SEC = [
+  ['Shoes', ['zara-sandals', 'apricot-flats', 'black-mesh-flats', 'slippers']],
+  ['Bags', ['woven-bag', 'silver-beaded-bag', 'zara-city-bag', 'brown-shoulder-bag', 'mrp-bag']],
+  ['Accessories', ['gold-jewellery', 'silver-bangles', 'silver-ear-cuffs', 'silver-studs', 'tortoiseshell-bangles', 'corset-belt']],
+  ['Head wraps and hats', ['black-crochet-headscarf', 'coffee-headscarf', 'gold-net-headscarf', 'black-bucket-hat', 'straw-hat', 'galxboy-hat']]
+];
+var SECID = {}; SEC.forEach(function(x) { x[1].forEach(function(id) { SECID[id] = 1; }); });
 function packRows() {
   var rows = [];
   function row(ref, sub) {
@@ -518,9 +524,9 @@ function packRows() {
       var seen = {}, list = [];
       l.options.forEach(function(o) {
         var sub = l.options.length > 1 ? o.label : '';
-        o.items.forEach(function(r) { var x = row(r, sub); if (!seen[x.id]) { seen[x.id] = 1; list.push(x); } });
+        o.items.forEach(function(r) { var x = row(r, sub); if (!seen[x.id] && !SECID[x.id]) { seen[x.id] = 1; list.push(x); } });
       });
-      rows.push({ g: l.num + ' · ' + l.name, list: list });
+      if (list.length) rows.push({ g: l.num + ' · ' + l.name, list: list });
     });
   });
   rows.push({ sep: 'Breakfast combinations' });
@@ -529,12 +535,9 @@ function packRows() {
     ['Sets', ['blue-crochet-set']],
     ['Tops', ['bodysuit-white', 'bodysuit-brown', 'bodysuit-black', 'black-tank', 'yellow-tank', 'striped-button-down']],
     ['Bottoms', ['white-linen-shorts', 'black-linen-shorts', 'beige-linen-shorts', 'white-mini-skirt', 'yellow-skort', 'black-linen-trousers', 'mom-jeans']],
-    ['Shoes', ['apricot-flats', 'black-mesh-flats', 'zara-sandals']],
-    ['Bags', ['woven-bag', 'zara-city-bag', 'brown-shoulder-bag', 'mrp-bag']],
-    ['Jewellery and accessories', ['gold-jewellery', 'coffee-headscarf']]
   ];
   var inCombos = {};
-  COMBOS.forEach(function(c) { c.items.forEach(function(r) { var x = row(r); inCombos[x.id] = 1; }); });
+  COMBOS.forEach(function(c) { c.items.forEach(function(r) { var x = row(r); if (!SECID[x.id]) inCombos[x.id] = 1; }); });
   var placed = {};
   CATS.forEach(function(cat) {
     var list = cat[1].filter(function(id) { return inCombos[id]; }).map(function(id) { placed[id] = 1; return row(id); });
@@ -542,6 +545,8 @@ function packRows() {
   });
   var rest = Object.keys(inCombos).filter(function(id) { return !placed[id]; }).map(function(id) { return row(id); });
   if (rest.length) rows.push({ g: 'Other', list: rest });
+  rows.push({ sep: 'Shoes, bags and accessories' });
+  SEC.forEach(function(x) { rows.push({ g: x[0], list: x[1].map(function(id) { return row(id); }) }); });
   rows.push({ sep: 'Everything else' });
   PACK.forEach(function(g) {
     var list = g.items.map(function(r) {
@@ -562,7 +567,7 @@ function renderPacking() {
   groups.forEach(function(g) { if (g.list) g.list.forEach(function(r) { uniq[r.id] = 1; }); });
   Object.keys(uniq).forEach(function(id) { total++; if (packed[id]) done++; });
   var h = '<section><div class="section-label">Packing List</div><h2>Everything going in the bag</h2>' +
-    '<p class="lede">Packed look by look, top to bottom, then the breakfast combination pieces by type, then everything else. Items your friend has are listed at the bottom. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
+    '<p class="lede">Packed look by look, top to bottom, then the breakfast pieces by type, then shoes, bags, accessories and head wraps on their own, then everything else. Items your friend has are listed at the bottom. Pieces that appear in more than one look tick off everywhere at once. Ticks are saved on this device.</p>' +
     '<div class="progress-wrap"><div class="progress-row"><span>Packed</span><span><strong id="pk-done">' + done + '</strong> of ' + total + '</span></div>' +
     '<div class="bar"><div id="pk-bar" style="width:' + (total ? done / total * 100 : 0) + '%"></div></div>' +
     '<div class="pack-actions"><button class="goto" id="pk-reset">Clear all ticks</button></div></div>' +
